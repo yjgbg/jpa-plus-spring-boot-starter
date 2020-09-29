@@ -120,8 +120,8 @@ public class ReflectUtils {
    * @return 父类或接口的泛型类型
    */
   public ParameterizedType getTargetGenericParent(Class<?> c,Class<?> clazz) {
-    Type geneSuperClass = c.getGenericSuperclass();
-    Type[] geneSuperInterfaces = c.getGenericInterfaces();
+    val geneSuperClass = c.getGenericSuperclass();
+    val geneSuperInterfaces = c.getGenericInterfaces();
     return Stream.of(new Type[]{geneSuperClass},geneSuperInterfaces)
         .flatMap(Arrays::stream)
         .filter(geneType -> geneType instanceof ParameterizedType)

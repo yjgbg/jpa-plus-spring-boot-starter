@@ -94,7 +94,6 @@ public interface ChainSpecification<T,Self extends ChainSpecification<T,Self>> {
   default Self like(@NotNull String path, String value) {
     return and((root, query, criteriaBuilder) ->
         criteriaBuilder.like(str2Path(root, path), value));
-
   }
 
   @NotNull

@@ -32,15 +32,8 @@ public class ReflectUtils {
   @SneakyThrows
   private Object getValue0(Object ob, String fieldName) {
     if (ob == null) return null;
-    val clazz = ob.getClass();
-    val methods = clazz.getMethods();
     val getMethodName  = "get"+CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL,fieldName);
-    val getMethod = Arrays.stream(methods)
-        .filter(m -> Objects.equals(getMethodName, m.getName()))
-        .findAny()
-        .orElseThrow(() -> new IllegalArgumentException("没有在类" +
-            clazz + "中找到属性(" + fieldName + ")的get方法"));
-    return getMethod.invoke(ob);
+    return ob.getClass().getMethod(getMethodName).invoke(ob);
   }
 
   /**
@@ -52,13 +45,8 @@ public class ReflectUtils {
   @SneakyThrows
   private void setValue0(Object obj, String fieldName, Object value) {
     if (obj == null) return;
-    Method[] methods = obj.getClass().getMethods();
     val setMethodName  = "set"+CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL,fieldName);
-    val setMethod = Arrays.stream(methods)
-        .filter(method -> Objects.equals(setMethodName, method.getName()))
-        .findAny()
-        .orElse(null);
-    if (setMethod!=null) setMethod.invoke(value);
+    obj.getClass().getMethod(setMethodName).invoke(value);
   }
 
   private void setValue(Collection<?> coll, String name, Object value) {

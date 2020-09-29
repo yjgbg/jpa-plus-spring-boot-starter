@@ -61,7 +61,8 @@ public class ReflectUtils {
     log.debug("setValue(map,{},{})",path,value);
     val arr = path.split("\\.");
     if (arr.length==1) map.put(path, value);
-    else setValue(map.get(arr[0]),path.substring(arr[0].length()+1),value);
+    else if (map.get(arr[0])!=null)
+      setValue(map.get(arr[0]),path.substring(arr[0].length()+1),value);
   }
 
   /**

@@ -1,5 +1,6 @@
 package life.yjgbg.jpa.plus.utils;
 
+import com.google.common.base.CaseFormat;
 import com.google.common.collect.Sets;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -8,6 +9,7 @@ import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Stream;
 import lombok.NonNull;
@@ -32,8 +34,9 @@ public class ReflectUtils {
     if (ob == null) return null;
     val clazz = ob.getClass();
     val methods = clazz.getMethods();
+    val getMethodName  = "get"+CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL,fieldName);
     val getMethod = Arrays.stream(methods)
-        .filter(m -> ("get" + fieldName).equalsIgnoreCase(m.getName()))
+        .filter(m -> Objects.equals(getMethodName, m.getName()))
         .findAny()
         .orElseThrow(() -> new IllegalArgumentException("没有在类" +
             clazz + "中找到属性(" + fieldName + ")的get方法"));
@@ -50,8 +53,9 @@ public class ReflectUtils {
   private void setValue0(Object obj, String fieldName, Object value) {
     if (obj == null) return;
     Method[] methods = obj.getClass().getMethods();
+    val setMethodName  = "set"+CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL,fieldName);
     val setMethod = Arrays.stream(methods)
-        .filter(method -> ("set" + fieldName).equalsIgnoreCase(method.getName()))
+        .filter(method -> Objects.equals(setMethodName, method.getName()))
         .findAny()
         .orElse(null);
     if (setMethod!=null) setMethod.invoke(value);

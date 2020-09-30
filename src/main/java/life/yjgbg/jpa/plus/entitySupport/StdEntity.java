@@ -16,11 +16,18 @@ public abstract class StdEntity<Self extends StdEntity<Self>>
   private Long id;
   private boolean deleted; // 逻辑删除字段
 
+  /**
+   * 逻辑删除
+   */
   public void removeLogically() {
     this.deleted = true;
     save();
   }
 
+  /**
+   * 撤销逻辑删除
+   * @return 返回该对象自己
+   */
   public Self undoRemoveLogically() {
     this.deleted = false;
     return save();

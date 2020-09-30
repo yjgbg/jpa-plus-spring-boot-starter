@@ -9,12 +9,12 @@ import org.springframework.data.repository.Repository;
 public interface StdRepository<T extends StdEntity<T>>
     extends JpaSpecificationExecutor<T>, Repository<T, Long> {
 
-  // 是否包含逻辑删除的字段:true 包含，false不包含，默认false
+  // 包含已经逻辑删除的字段
   default ExecutableSpecification<T> specIncludeDeletedLogically() {
     return new ExecutableSpecification<>(this);
   }
 
-  // 是否包含逻辑删除的字段:true 包含，false不包含，默认false
+  // 不包含已经逻辑删除的字段
   default ExecutableSpecification<T> spec() {
     return specIncludeDeletedLogically().eq("deleted",false);
   }

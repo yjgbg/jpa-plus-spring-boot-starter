@@ -10,7 +10,6 @@ import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 import java.util.Optional;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 /**
  * 查询功能，模板模式
@@ -20,7 +19,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 interface SpecExecutor<T extends StdEntity<T>> {
 
   @NotNull
-  JpaSpecificationExecutor<T> getJpaSpecificationExecutor();
+  JpaSpecificationExecutorPro<T> getJpaSpecificationExecutor();
 
   @Nullable
   Sort getSort();
@@ -31,6 +30,10 @@ interface SpecExecutor<T extends StdEntity<T>> {
   @NotNull
   default Optional<T> findOne() {
     return getJpaSpecificationExecutor().findOne(toSpecification());
+  }
+  @NotNull
+  default Optional<T> findOneForUpdate() {
+    return getJpaSpecificationExecutor().findOneForUpdate(toSpecification());
   }
 
   @NotNull

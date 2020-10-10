@@ -10,8 +10,8 @@
   <description>spring-data-jpa加强</description>
   <url>http:/www.yjgbg.life</url>
   <parent>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-parent</artifactId>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
     <version>2.3.4.RELEASE</version>
   </parent>
   <dependencies>

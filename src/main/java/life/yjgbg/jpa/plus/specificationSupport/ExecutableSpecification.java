@@ -14,7 +14,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
@@ -24,7 +23,7 @@ public class ExecutableSpecification<T extends StdEntity<T>> implements
     Specification<T>,
     SpecExecutor<T> {
 
-  private final JpaSpecificationExecutor<T> jpaSpecificationExecutor;
+  private final JpaSpecificationExecutorPro<T> jpaSpecificationExecutor;
   private Specification<T> specification;
   private Sort sort;
 

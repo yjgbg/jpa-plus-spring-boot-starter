@@ -16,6 +16,9 @@ public abstract class StdEntity<Self extends StdEntity<Self>>
   private Long id;
   private boolean deleted; // 逻辑删除字段
 
+  @Version
+  private Integer version = 0;
+
   /**
    * 逻辑删除
    */

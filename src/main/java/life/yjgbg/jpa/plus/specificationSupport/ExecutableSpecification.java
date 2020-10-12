@@ -20,7 +20,6 @@ import javax.persistence.criteria.Root;
 public class ExecutableSpecification<T extends StdEntity<T>> implements
     ChainSpecification<T, ExecutableSpecification<T>>,
     Sortable<ExecutableSpecification<T>>,
-    Specification<T>,
     SpecExecutor<T> {
 
   private final JpaSpecificationExecutorPro<T> jpaSpecificationExecutor;
@@ -59,12 +58,12 @@ public class ExecutableSpecification<T extends StdEntity<T>> implements
         return that.sort(sort);
       }
     };
-    specification = specification.or(exe);
+    specification = specification.or(exe::toPredicate);
     return exe;
   }
 
   @Nullable
-  public Predicate toPredicate(@NotNull Root<T> root,
+  protected Predicate toPredicate(@NotNull Root<T> root,
       @NotNull CriteriaQuery<?> query,
       @NotNull CriteriaBuilder criteriaBuilder) {
     return specification.toPredicate(root, query, criteriaBuilder);

@@ -8,7 +8,25 @@
   <version>2.3.4</version>
   <name>jpa-plus-spring-boot-starter</name>
   <description>spring-data-jpa加强</description>
-  <url>http:/www.yjgbg.life</url>
+  <url>https://github.com/yjgbg/jpa-plus-spring-boot-starter</url>
+  <licenses>
+    <license>
+      <name>The MIT License</name>
+      <url>https://raw.githubusercontent.com/yjgbg/jpa-plus-spring-boot-starter/master/LICENSE</url>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <name>yjgbg</name>
+      <email>yjgbg1239461052@gmail.com</email>
+      <url>https://github.com/yjgbg</url>
+    </developer>
+  </developers>
+  <scm>
+    <url>https://github.com/yjgbg/jpa-plus-spring-boot-starter.git</url>
+    <connection>https://github.com/yjgbg/jpa-plus-spring-boot-starter.git</connection>
+    <developerConnection>https://github.com/yjgbg</developerConnection>
+  </scm>
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
@@ -58,6 +76,30 @@
           <target>11</target>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>1.6</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
+  <distributionManagement>
+    <snapshotRepository>
+      <id>oss</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+    </snapshotRepository>
+    <repository>
+      <id>oss</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+  </distributionManagement>
 </project>

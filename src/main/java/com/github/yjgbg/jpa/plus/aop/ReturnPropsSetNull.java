@@ -1,4 +1,4 @@
-package life.yjgbg.jpa.plus.aop;
+package com.github.yjgbg.jpa.plus.aop;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

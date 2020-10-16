@@ -1,6 +1,6 @@
-package life.yjgbg.jpa.plus.specificationSupport;
+package com.github.yjgbg.jpa.plus.specificationSupport;
 
-import life.yjgbg.jpa.plus.entitySupport.StdEntity;
+import com.github.yjgbg.jpa.plus.entitySupport.StdEntity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.data.domain.Page;

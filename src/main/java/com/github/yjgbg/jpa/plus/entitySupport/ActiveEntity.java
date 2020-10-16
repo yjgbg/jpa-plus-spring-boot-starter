@@ -1,6 +1,6 @@
-package life.yjgbg.jpa.plus.entitySupport;
+package com.github.yjgbg.jpa.plus.entitySupport;
 
-import life.yjgbg.jpa.plus.JpaPlusSupport;
+import com.github.yjgbg.jpa.plus.JpaPlusSupport;
 
 /**
  * 支持删除和保存

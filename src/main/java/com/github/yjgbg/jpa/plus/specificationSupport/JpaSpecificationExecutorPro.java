@@ -1,4 +1,4 @@
-package life.yjgbg.jpa.plus.specificationSupport;
+package com.github.yjgbg.jpa.plus.specificationSupport;
 
 import java.util.Optional;
 import javax.persistence.LockModeType;

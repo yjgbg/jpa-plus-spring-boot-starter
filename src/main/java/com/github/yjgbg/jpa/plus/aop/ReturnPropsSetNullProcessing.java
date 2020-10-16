@@ -1,7 +1,7 @@
-package life.yjgbg.jpa.plus.aop;
+package com.github.yjgbg.jpa.plus.aop;
 
+import com.github.yjgbg.jpa.plus.utils.ReflectUtils;
 import java.util.Arrays;
-import life.yjgbg.jpa.plus.utils.ReflectUtils;
 import lombok.SneakyThrows;
 import lombok.val;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -12,7 +12,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 @Aspect
 public class ReturnPropsSetNullProcessing {
   @SneakyThrows
-  @Around("@annotation(life.yjgbg.jpa.plus.aop.ReturnPropsSetNull)")
+  @Around("@annotation(com.github.yjgbg.jpa.plus.aop.ReturnPropsSetNull)")
   public Object send(ProceedingJoinPoint joinPoint) {
     val res = joinPoint.proceed(joinPoint.getArgs());
     if (res==null) return null;

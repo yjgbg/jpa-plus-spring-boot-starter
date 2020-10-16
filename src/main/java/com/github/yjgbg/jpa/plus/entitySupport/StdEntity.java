@@ -1,4 +1,4 @@
-package life.yjgbg.jpa.plus.entitySupport;
+package com.github.yjgbg.jpa.plus.entitySupport;
 
 import lombok.Getter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;

@@ -1,4 +1,4 @@
-package life.yjgbg.jpa.plus.specificationSupport;
+package com.github.yjgbg.jpa.plus.specificationSupport;
 
 import lombok.val;
 import org.jetbrains.annotations.Contract;

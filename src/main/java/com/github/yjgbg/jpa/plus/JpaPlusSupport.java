@@ -1,16 +1,18 @@
-package life.yjgbg.jpa.plus;
+package com.github.yjgbg.jpa.plus;
 
+import com.github.yjgbg.jpa.plus.aop.ReturnPropsSetNullProcessing;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
-import life.yjgbg.jpa.plus.aop.ReturnPropsSetNullProcessing;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @Getter
 @Configuration
+@EnableJpaAuditing
 public class JpaPlusSupport {
 
   @Autowired
@@ -29,7 +31,6 @@ public class JpaPlusSupport {
   public <T> T save(T entity) {
     return entityManager.merge(entity);
   }
-
 
   @Modifying
   @Transactional

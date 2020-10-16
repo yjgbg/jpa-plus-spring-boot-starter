@@ -1,6 +1,6 @@
-package life.yjgbg.jpa.plus.specificationSupport;
+package com.github.yjgbg.jpa.plus.specificationSupport;
 
-import life.yjgbg.jpa.plus.entitySupport.StdEntity;
+import com.github.yjgbg.jpa.plus.entitySupport.StdEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package life.yjgbg.jpa.plus.utils;
+package com.github.yjgbg.jpa.plus.utils;
 
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.Sets;

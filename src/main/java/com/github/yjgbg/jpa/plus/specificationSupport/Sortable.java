@@ -1,4 +1,4 @@
-package life.yjgbg.jpa.plus.specificationSupport;
+package com.github.yjgbg.jpa.plus.specificationSupport;
 
 import org.springframework.data.domain.Sort;
 

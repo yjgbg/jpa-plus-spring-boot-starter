@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-life.yjgbg.jpa.plus.JpaPlusSupport
+com.github.yjgbg.jpa.plus.JpaPlusSupport

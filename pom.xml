@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.yjgbg</groupId>
   <artifactId>jpa-plus-spring-boot-starter</artifactId>
-  <version>2.3.4_u001</version>
+  <version>2.3.5</version>
   <name>jpa-plus-spring-boot-starter</name>
   <description>spring-data-jpa加强</description>
   <url>https://github.com/yjgbg/jpa-plus-spring-boot-starter</url>
@@ -30,13 +30,13 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.3.4.RELEASE</version>
+    <version>2.3.5.RELEASE</version>
   </parent>
   <dependencies>
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>29.0-jre</version>
+      <version>30.0-jre</version>
     </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>

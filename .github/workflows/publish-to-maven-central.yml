@@ -14,13 +14,11 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-      - run: echo ${{ secrets.GPG_KEY_ID }}
-      - run: echo ${{secrets.GPG_KEY_ID}}
 
       - name: Release Maven package
         uses: samuelmeuli/action-maven-publish@v1
         with:
-          gpg_private_key: ${{ secrets.GPG_KEY_ID }}
-          gpg_passphrase: ${{ secrets.GPG_PASSPHRASE }}
-          nexus_username: ${{ secrets.NEXUS_USERNAME }}
-          nexus_password: ${{ secrets.NEXUS_PASSWORD }}
+          gpg_private_key: ${{secrets.GPG_KEY_ID}}
+          gpg_passphrase: ${{secrets.GPG_PASSPHRASE}}
+          nexus_username: ${{secrets.NEXUS_USERNAME}}
+          nexus_password: ${{secrets.NEXUS_PASSWORD}}

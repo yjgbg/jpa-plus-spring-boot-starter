@@ -1,4 +1,4 @@
-name: Build and push image to dockerhub
+name: Publish to maven central
 on:
   push:
     tags:

@@ -13,4 +13,4 @@ jobs:
         with:
           maven-version: 3.6.1
       - name: build and deploy
-        run: mvn install deploy -P release -Dgpg.passphrase=${{ secret.GPG_PASSWORD }}
+        run: mvn install deploy -P release -Dgpg.passphrase=${{ secrets.GPG_PASSWORD }}

@@ -2,7 +2,7 @@ name: Build and push image to dockerhub
 on:
   push:
     tags:
-      - release-**
+      - release.**
 jobs:
   build:
     runs-on: ubuntu-latest

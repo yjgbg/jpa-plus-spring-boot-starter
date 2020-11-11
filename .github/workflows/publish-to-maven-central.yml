@@ -4,13 +4,21 @@ on:
     tags:
       - release.**
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up Maven
-        uses: stCarolas/setup-maven@v3
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Install Java and Maven
+        uses: actions/setup-java@v1
         with:
-          maven-version: 3.6.1
-      - name: build and deploy
-        run: mvn install deploy -Dgpg.passphrase=${{ secrets.GPG_PASSWORD }}
+          java-version: 11
+
+      - name: Release Maven package
+        uses: samuelmeuli/action-maven-publish@v1
+        with:
+          gpg_private_key: ${{ secrets.GPG_KEY_ID }}
+          gpg_passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          nexus_username: ${{ secrets.NEXUS_USERNAME }}
+          nexus_password: ${{ secrets.NEXUS_PASSWORD }}

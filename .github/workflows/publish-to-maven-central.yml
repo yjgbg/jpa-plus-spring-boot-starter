@@ -1,0 +1,16 @@
+name: Build and push image to dockerhub
+on:
+  push:
+    tags:
+      - release-**
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Maven
+        uses: aahmed-se/setup-maven@v3
+        with:
+          maven-version: 3.6.1
+      - name: build and deploy
+        run: mvn install deploy -P release -Dgpg.passphrase=${{ secret.GPG_PASSWORD }}

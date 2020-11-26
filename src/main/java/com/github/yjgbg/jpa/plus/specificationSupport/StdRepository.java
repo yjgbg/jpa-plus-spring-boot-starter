@@ -15,6 +15,7 @@ public interface StdRepository<T extends StdEntity<T>>
 
   // 不包含已经逻辑删除的字段
   default ExecutableSpecification<T> spec() {
-    return specIncludeDeletedLogically().eq("deleted",false);
+    return new ExecutableSpecification<>(this)
+            .eq("deleted",false);
   }
 }

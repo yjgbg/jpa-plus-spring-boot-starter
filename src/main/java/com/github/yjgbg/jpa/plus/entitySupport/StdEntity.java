@@ -17,7 +17,7 @@ public abstract class StdEntity<Self extends StdEntity<Self>>
   private boolean deleted; // 逻辑删除字段
 
   @Version
-  private Integer version = 0;
+  private Integer version;
 
   /**
    * 逻辑删除

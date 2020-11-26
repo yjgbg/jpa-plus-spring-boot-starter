@@ -1,6 +1,5 @@
 package com.github.yjgbg.jpa.plus.specificationSupport;
 
-import com.github.yjgbg.jpa.plus.entitySupport.StdEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +16,7 @@ import javax.persistence.criteria.Root;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-public class ExecutableSpecification<T extends StdEntity<T>> implements
+public class ExecutableSpecification<T> implements
     ChainSpecification<T, ExecutableSpecification<T>>,
     Sortable<ExecutableSpecification<T>>,
     SpecExecutor<T> {

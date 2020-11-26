@@ -1,6 +1,5 @@
 package com.github.yjgbg.jpa.plus.specificationSupport;
 
-import com.github.yjgbg.jpa.plus.entitySupport.StdEntity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.data.domain.Page;
@@ -16,7 +15,7 @@ import java.util.Optional;
  *
  * @param <T>
  */
-interface SpecExecutor<T extends StdEntity<T>> {
+interface SpecExecutor<T> {
 
   @NotNull
   JpaSpecificationExecutorPro<T> getJpaSpecificationExecutor();

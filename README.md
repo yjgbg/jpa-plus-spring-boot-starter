@@ -1,4 +1,7 @@
 # jpa-plus-spring-boot-starter
+
+[![Join the chat at https://gitter.im/yjgbg/jpa-plus](https://badges.gitter.im/yjgbg/jpa-plus.svg)](https://gitter.im/yjgbg/jpa-plus?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 description
 ## User Guide
 从maven中引入包，替换掉spring-boot-starter-data-jpa即可,

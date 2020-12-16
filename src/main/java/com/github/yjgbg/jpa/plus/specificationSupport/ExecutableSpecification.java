@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -21,7 +22,7 @@ public class ExecutableSpecification<T> implements
     Sortable<ExecutableSpecification<T>>,
     SpecExecutor<T> {
 
-  private final JpaSpecificationExecutorPro<T> jpaSpecificationExecutor;
+  private final JpaSpecificationExecutor<T> jpaSpecificationExecutor;
   private Specification<T> specification;
   private Sort sort;
 

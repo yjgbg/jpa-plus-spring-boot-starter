@@ -24,8 +24,10 @@ public interface ChainSpecification<T,Self extends ChainSpecification<T,Self>> {
   Self and(@Nullable Specification<T> specification);
 
   default Self eq(String path,Object value) {
-    if (value == null) return and((root, query, criteriaBuilder) ->
-        criteriaBuilder.isNull(str2Path(root, path)));
+    if (value == null) {
+      return and((root, query, criteriaBuilder) ->
+              criteriaBuilder.isNull(str2Path(root, path)));
+    }
     return and((root, query, criteriaBuilder) ->
         criteriaBuilder.equal(root.get(path), value));
   }
@@ -40,6 +42,12 @@ public interface ChainSpecification<T,Self extends ChainSpecification<T,Self>> {
         QueryByExamplePredicateBuilder.getPredicate(root, criteriaBuilder, Example.of(probe)));
   }
 
+  /**
+   * 满足condition时，后面的lambda生效
+   * @param condition
+   * @param functor
+   * @return
+   */
   @NotNull
   @SuppressWarnings("unchecked")
   default Self cond(boolean condition, @NotNull Function<Self, @NotNull Self> functor) {
@@ -48,8 +56,10 @@ public interface ChainSpecification<T,Self extends ChainSpecification<T,Self>> {
 
   @NotNull
   default Self ne(@NotNull String path, @Nullable Object value) {
-    if (value == null) return and((root, query, criteriaBuilder) ->
-        criteriaBuilder.isNotNull(root.get(path)));
+    if (value == null) {
+      return and((root, query, criteriaBuilder) ->
+              criteriaBuilder.isNotNull(root.get(path)));
+    }
     return and((root, query, criteriaBuilder) ->
         criteriaBuilder.notEqual(root.get(path), value));
   }
@@ -139,7 +149,7 @@ public interface ChainSpecification<T,Self extends ChainSpecification<T,Self>> {
 
   @NotNull
   @Contract(pure = true)
-  private <P> Path<P> str2Path(@NotNull Path<?> path, @NotNull String string) {
+  private static <P> Path<P> str2Path(@NotNull Path<?> path, @NotNull String string) {
     @SuppressWarnings("unchecked")
     val castPath = (Path<P>) path;
     return Arrays.stream(string.split("\\."))

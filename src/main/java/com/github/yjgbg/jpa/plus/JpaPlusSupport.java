@@ -4,20 +4,22 @@ import com.github.yjgbg.jpa.plus.aop.ReturnPropsSetNullProcessing;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
+/**
+ * @author Yjgbg
+ */
 @Getter
 @Configuration
 @EnableJpaAuditing
+@RequiredArgsConstructor
 public class JpaPlusSupport {
-
-  @Autowired
-  private EntityManager entityManager;
-
+  private final EntityManager entityManager;
   public static JpaPlusSupport SELF;
 
   @Autowired

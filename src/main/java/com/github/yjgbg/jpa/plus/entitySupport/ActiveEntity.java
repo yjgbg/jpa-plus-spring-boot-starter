@@ -4,6 +4,7 @@ import com.github.yjgbg.jpa.plus.JpaPlusSupport;
 
 /**
  * 支持删除和保存
+ * @author weicl
  * @param <Self>
  */
 public interface ActiveEntity<Self> {

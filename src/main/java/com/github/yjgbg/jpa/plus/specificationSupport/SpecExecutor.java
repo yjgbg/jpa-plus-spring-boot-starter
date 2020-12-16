@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +19,7 @@ import java.util.Optional;
 interface SpecExecutor<T> {
 
   @NotNull
-  JpaSpecificationExecutorPro<T> getJpaSpecificationExecutor();
+  JpaSpecificationExecutor<T> getJpaSpecificationExecutor();
 
   @Nullable
   Sort getSort();
@@ -29,10 +30,6 @@ interface SpecExecutor<T> {
   @NotNull
   default Optional<T> findOne() {
     return getJpaSpecificationExecutor().findOne(toSpecification());
-  }
-  @NotNull
-  default Optional<T> findOneForUpdate() {
-    return getJpaSpecificationExecutor().findOneForUpdate(toSpecification());
   }
 
   @NotNull

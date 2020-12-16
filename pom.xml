@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.yjgbg</groupId>
   <artifactId>jpa-plus-spring-boot-starter</artifactId>
-  <version>2.4.0</version>
+  <version>2.4.1.1</version>
   <name>jpa-plus-spring-boot-starter</name>
   <description>spring-data-jpa加强</description>
   <url>https://github.com/yjgbg/jpa-plus-spring-boot-starter</url>
@@ -30,7 +30,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.1.3.RELEASE</version>
+    <version>2.4.1</version>
   </parent>
   <dependencies>
     <dependency>

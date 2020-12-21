@@ -3,6 +3,8 @@ package com.github.yjgbg.jpa.plus;
 import com.github.yjgbg.jpa.plus.aop.ReturnPropsSetNullProcessing;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
+
+import com.github.yjgbg.jpa.plus.entitySupport.ActiveEntityHelper;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,8 @@ public class JpaPlusSupport {
 
   @Autowired
   public void injectSelf(JpaPlusSupport self) {
+    ActiveEntityHelper.registerRemoveFunction(self::remove);
+    ActiveEntityHelper.registerSaveFunction(self::save);
     SELF = self;
   }
 

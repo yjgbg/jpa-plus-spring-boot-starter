@@ -7,7 +7,10 @@ import org.springframework.data.repository.Repository;
 @NoRepositoryBean
 public interface StdRepository<T>
     extends JpaSpecificationExecutor<T>, Repository<T, Long> {
-  // 包含已经逻辑删除的字段
+  /**
+   * 获取到一个可执行(find，count等函数)的Specification
+   * @return
+   */
   default ExecutableSpecification<T> spec() {
     return new ExecutableSpecification<>(this);
   }

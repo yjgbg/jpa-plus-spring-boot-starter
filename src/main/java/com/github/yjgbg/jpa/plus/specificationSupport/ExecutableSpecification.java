@@ -50,9 +50,7 @@ public class ExecutableSpecification<T> implements
     @Override
     @NotNull
     public ExecutableSpecification<T> and(@Nullable Specification<T> value) {
-        if (value==null) {
-            return this;
-        }
+        if (value==null) return this;
         val beforeAnd = getCurrentSpec();
         val afterAnd = beforeAnd == null ?
                 value : beforeAnd.and(value);
@@ -95,6 +93,6 @@ public class ExecutableSpecification<T> implements
     }
 
     private void setCurrentSpec(int index, Specification<T> specification) {
-        specificationList.add(index, specification);
+        specificationList.set(index, specification);
     }
 }

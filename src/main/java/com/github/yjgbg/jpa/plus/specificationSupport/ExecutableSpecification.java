@@ -50,31 +50,27 @@ public class ExecutableSpecification<T> implements
     @Override
     @NotNull
     public ExecutableSpecification<T> and(@Nullable Specification<T> value) {
-        if (value==null) return this;
+        if (value == null) return this;
         val beforeAnd = getCurrentSpec();
         val afterAnd = beforeAnd == null ?
                 value : beforeAnd.and(value);
-        setCurrentSpec(currentSpecIndex, afterAnd);
+        setCurrentSpec(afterAnd);
         return this;
     }
 
     @Override
     public Predicate toPredicate(@NotNull Root<T> root,
-                                 @NotNull CriteriaQuery<?> criteriaQuery,
-                                 @NotNull CriteriaBuilder criteriaBuilder) {
-        if (specificationList.isEmpty()) {
-            return null;
-        }
+                                 @NotNull CriteriaQuery<?> cq,
+                                 @NotNull CriteriaBuilder cb) {
+        if (specificationList.isEmpty()) return null;
         return specificationList.stream().reduce(Specification::or)
-                .map(x -> x.toPredicate(root, criteriaQuery, criteriaBuilder))
+                .map(x -> x.toPredicate(root, cq, cb))
                 .orElse(null);
     }
 
     @NotNull
     public ExecutableSpecification<T> or() {
-        if (getCurrentSpec()!=null) {
-            currentSpecIndex += 1;
-        }
+        if (getCurrentSpec() != null) currentSpecIndex += 1;
         return this;
     }
 
@@ -85,14 +81,14 @@ public class ExecutableSpecification<T> implements
     }
 
     private Specification<T> getCurrentSpec() {
-        if (currentSpecIndex >= specificationList.size()) {
-            return null;
-        } else {
-            return specificationList.get(currentSpecIndex);
-        }
+        if (currentSpecIndex == specificationList.size()) return null;
+        return specificationList.get(currentSpecIndex);
+
     }
 
-    private void setCurrentSpec(int index, Specification<T> specification) {
-        specificationList.set(index, specification);
+    private void setCurrentSpec(Specification<T> specification) {
+        if (currentSpecIndex == specificationList.size())
+            specificationList.add(specification);
+        else specificationList.set(currentSpecIndex, specification);
     }
 }

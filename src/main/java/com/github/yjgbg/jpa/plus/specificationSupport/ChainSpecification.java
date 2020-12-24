@@ -42,12 +42,6 @@ public interface ChainSpecification<T,Self extends ChainSpecification<T,Self>> {
         QueryByExamplePredicateBuilder.getPredicate(root, criteriaBuilder, Example.of(probe)));
   }
 
-  /**
-   * 满足condition时，后面的lambda生效
-   * @param condition
-   * @param functor
-   * @return
-   */
   @NotNull
   @SuppressWarnings("unchecked")
   default Self cond(boolean condition, @NotNull Function<Self, @NotNull Self> functor) {
@@ -112,7 +106,7 @@ public interface ChainSpecification<T,Self extends ChainSpecification<T,Self>> {
   }
 
   @NotNull
-  default Self in(@NotNull String path, @NotNull Collection<Object> value) {
+  default <R> Self in(@NotNull String path, @NotNull Collection<R> value) {
     return and((root, query, criteriaBuilder) -> {
       val p = criteriaBuilder.in(str2Path(root, path));
       value.forEach(p::value);
@@ -149,10 +143,10 @@ public interface ChainSpecification<T,Self extends ChainSpecification<T,Self>> {
 
   @NotNull
   @Contract(pure = true)
-  public static <P> Path<P> str2Path(@NotNull Path<?> path, @NotNull String string) {
+  static <P> Path<P> str2Path(@NotNull Path<?> root, @NotNull String string) {
     @SuppressWarnings("unchecked")
-    val castPath = (Path<P>) path;
+    val path = (Path<P>) root;
     return Arrays.stream(string.split("\\."))
-        .reduce(castPath, Path::get, (a, b) -> a);
+        .reduce(path, Path::get, (a, b) -> a);
   }
 }

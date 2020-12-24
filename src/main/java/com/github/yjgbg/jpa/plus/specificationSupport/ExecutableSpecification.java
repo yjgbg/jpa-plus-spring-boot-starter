@@ -21,15 +21,9 @@ import java.util.List;
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 public class ExecutableSpecification<T> implements
         EntityGraphEditor<ExecutableSpecification<T>, T>,
-        ChainSpecification<T, ExecutableSpecification<T>>,
+        GetterSupport<T, ExecutableSpecification<T>>,
         Sortable<ExecutableSpecification<T>>,
         SpecExecutor<T> {
-
-    @Override
-    public Class<T> getDomainClass() {
-        return getJpaSpecificationRepository()
-                .getDomainClass();
-    }
 
     @Getter
     private final JpaSpecificationRepository<T> jpaSpecificationRepository;
@@ -37,6 +31,12 @@ public class ExecutableSpecification<T> implements
     private EntityGraph<T> entityGraph;
     @Getter
     private Sort sort = Sort.unsorted();
+
+    @Override
+    public Class<T> getDomainClass() {
+        return getJpaSpecificationRepository()
+                .getDomainClass();
+    }
 
     private final List<Specification<T>> specificationList = new ArrayList<>();
     private int currentSpecIndex = 0;

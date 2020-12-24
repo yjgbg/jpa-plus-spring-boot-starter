@@ -36,7 +36,7 @@
     <dependency>
       <groupId>com.github.yjgbg</groupId>
       <artifactId>active-entity</artifactId>
-      <version>1.0</version>
+      <version>1.0.1</version>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>

@@ -149,7 +149,7 @@ public interface ChainSpecification<T,Self extends ChainSpecification<T,Self>> {
 
   @NotNull
   @Contract(pure = true)
-  private static <P> Path<P> str2Path(@NotNull Path<?> path, @NotNull String string) {
+  public static <P> Path<P> str2Path(@NotNull Path<?> path, @NotNull String string) {
     @SuppressWarnings("unchecked")
     val castPath = (Path<P>) path;
     return Arrays.stream(string.split("\\."))

@@ -5,20 +5,22 @@ import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 import com.github.yjgbg.jpa.plus.entitySupport.ActiveEntityHelper;
+import com.github.yjgbg.jpa.plus.repository.JpaSpecificationRepositoryImpl;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 /**
  * @author Yjgbg
  */
 @Getter
+@Lazy(false)
 @Configuration
-@EnableJpaAuditing
 @RequiredArgsConstructor
 public class JpaPlusSupport {
   private final EntityManager entityManager;

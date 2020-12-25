@@ -8,6 +8,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.core.annotation.Order;
 
 import java.util.Arrays;
 
@@ -17,6 +18,7 @@ import java.util.Arrays;
  * @see ReturnPropsSetNull
  */
 @Aspect
+@Order(value = Integer.MIN_VALUE)
 public class ReturnPropsSetNullProcessing {
   @SneakyThrows
   @Around("@annotation(com.github.yjgbg.jpa.plus.annotations.ReturnPropsSetNull)")

@@ -11,7 +11,8 @@ import org.springframework.data.repository.query.QueryLookupStrategy;
 import java.lang.annotation.*;
 
 /**
- * 开启JpaPlus
+ * 开启JpaPlus功能
+ * <p>
  * 完全继承自EnableJpaRepositories，只是修改了repositoryBaseClass的默认值
  */
 @Documented

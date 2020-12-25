@@ -7,14 +7,12 @@ import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Stream;
 
 /**
@@ -43,14 +41,19 @@ public class ReflectUtils {
   /**
    * 根据属性名，拿到set方法，并把值set到对象中
    *
-   * @param obj 对象
+   * @param obj   对象
    * @param value value
    */
   @SneakyThrows
-  private void setValue0(Object obj, String fieldName, Object value) {
+  private void setValue0(Object obj, String fieldName, @Nullable Object value) {
     if (obj == null) return;
-    val setMethodName  = "set"+CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL,fieldName);
-    obj.getClass().getMethod(setMethodName).invoke(value);
+    val setMethodName = "set" + CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, fieldName);
+    val clazz = obj.getClass();
+    val method = Arrays.stream(clazz.getMethods())
+            .filter(m -> Objects.equals(m.getName(), setMethodName))
+            .filter(m -> m.getParameterCount() == 1)
+            .findAny().orElseThrow(NoSuchMethodException::new);
+    method.invoke(obj, value);
   }
 
   private void setValue(Collection<?> coll, String name, Object value) {

@@ -7,21 +7,37 @@ import java.beans.Introspector;
 import java.io.Serializable;
 import java.lang.invoke.SerializedLambda;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * 表示一个javaBean中的get方法
+ * 用途：在构造ExecutableSpecification对象的时候，希望对路径有类型安全的表达，而不是拼接字符串
+ * <p>
+ * 例如: Role role = new User().getRole();
+ * Getter&lt;User,Role&gt; getter = User::getRole;
+ * assert "role" == getter.propertyName();
+ *
+ * @param <A> javaBean的类型
+ * @param <B> get方法返回的类型
+ */
 @FunctionalInterface
-public interface Getter<T, R> extends Function<T, R>, Serializable {
+public interface Getter<A, B> extends Function<A, B>, Serializable {
     @SneakyThrows
     private String propertyName0() {
         val method = this.getClass().getDeclaredMethod("writeReplace");
         method.setAccessible(Boolean.TRUE);
         val serializedLambda = (SerializedLambda) method.invoke(this);
-        val getter =  serializedLambda.getImplMethodName();
+        val getter = serializedLambda.getImplMethodName();
         return Introspector.decapitalize(getter.replace("get", ""));
     }
 
+    /**
+     * 返回该get方法对应的属性的名称
+     * @return 返回该get方法对应的属性的名称
+     */
     default String propertyName() {
         val clazz = getClass();
         val res0 = PackageCascade.GETTER_NAME_CACHE.get(clazz);
@@ -41,8 +57,8 @@ public interface Getter<T, R> extends Function<T, R>, Serializable {
      * LambdaUtils 函数s，接受多个SFunction(1参数，1返回值的lambda表达式),返回形似于aaa.bbb的字符串。
      * <p>
      * 必须使用实体的get方法，且必须为methodReference形式
-     * 例如: s(Entity1::getName) : name ;
-     * s(Entity1::getEntity2,Entity2::getEntity3,Entity3::getString) : entity2.entity3.string
+     * 例如: s(Entity1::getName)== "name" ;
+     * s(Entity1::getEntity2,Entity2::getEntity3,Entity3::getString) == "entity2.entity3.string"
      *
      * @param s0  A实体类中的get函数
      * @param <A> 实体类
@@ -76,10 +92,19 @@ public interface Getter<T, R> extends Function<T, R>, Serializable {
         return getters2Name(s0, s1, s2, s3, s4, s5);
     }
 
-    static <T,R> Getter<T,R> c(Getter<T, Collection<R>> getter) {
+    /**
+     * 类型变形，覆盖掉apply函数，使之返回值恒为空null
+     * 用于路径表达
+     *
+     * @param getter getter函数
+     * @param <A>    getter的参数类型
+     * @param <B>    getter的返回值类型
+     * @return 返回新的getter
+     */
+    static <A, B> Getter<A, B> c(Getter<A, Collection<B>> getter) {
         return new Getter<>() {
             @Override
-            public R apply(T t) {
+            public B apply(A t) {
                 return null;
             }
 
@@ -89,4 +114,12 @@ public interface Getter<T, R> extends Function<T, R>, Serializable {
             }
         };
     }
+}
+
+/**
+ * 包级常量，不暴露到外部
+ */
+class PackageCascade {
+    static String DELIMITER = ".";
+    static HashMap<Class<?>, String> GETTER_NAME_CACHE = new HashMap<>();
 }

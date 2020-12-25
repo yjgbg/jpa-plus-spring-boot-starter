@@ -1,6 +1,6 @@
-package com.github.yjgbg.jpa.plus.specificationSupport;
+package com.github.yjgbg.jpa.plus.repository;
 
-import com.github.yjgbg.jpa.plus.repository.JpaSpecificationRepository;
+import com.github.yjgbg.jpa.plus.specification.ExecutableSpecification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 
@@ -13,7 +13,7 @@ public interface StdRepository<T,ID>
   /**
    * 获取到一个可执行(find，count等函数)的Specification
    *
-   * @return
+   * @return 可执行(find ， count等函数)的Specification
    */
   default ExecutableSpecification<T> spec() {
     return new ExecutableSpecification<>(this);

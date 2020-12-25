@@ -1,4 +1,4 @@
-package com.github.yjgbg.jpa.plus.specificationSupport;
+package com.github.yjgbg.jpa.plus.specification.support;
 
 import com.github.yjgbg.jpa.plus.repository.JpaSpecificationRepository;
 import org.jetbrains.annotations.NotNull;
@@ -18,7 +18,7 @@ import java.util.Optional;
  *
  * @param <T>
  */
-interface SpecExecutor<T> extends Specification<T> {
+public interface ExecuteSupport<T> extends Specification<T> {
 
     @NotNull
     JpaSpecificationRepository<T> getJpaSpecificationRepository();

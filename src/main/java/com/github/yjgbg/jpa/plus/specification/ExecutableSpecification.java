@@ -1,7 +1,7 @@
-package com.github.yjgbg.jpa.plus.specificationSupport;
+package com.github.yjgbg.jpa.plus.specification;
 
 import com.github.yjgbg.jpa.plus.repository.JpaSpecificationRepository;
-import lombok.AccessLevel;
+import com.github.yjgbg.jpa.plus.specification.support.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -18,12 +18,13 @@ import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
-@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
+@RequiredArgsConstructor
 public class ExecutableSpecification<T> implements
-        EntityGraphEditor<ExecutableSpecification<T>, T>,
+        EntityGraphSupport<ExecutableSpecification<T>, T>,
         GetterSupport<T, ExecutableSpecification<T>>,
-        Sortable<ExecutableSpecification<T>>,
-        SpecExecutor<T> {
+        ChainSupport<T, ExecutableSpecification<T>>,
+        SortSupport<ExecutableSpecification<T>>,
+        ExecuteSupport<T> {
 
     @Getter
     private final JpaSpecificationRepository<T> jpaSpecificationRepository;

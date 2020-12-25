@@ -2,6 +2,12 @@ package com.github.yjgbg.jpa.plus.utils;
 
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.Sets;
+import lombok.NonNull;
+import lombok.SneakyThrows;
+import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
+import lombok.val;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -10,12 +16,12 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
-import lombok.NonNull;
-import lombok.SneakyThrows;
-import lombok.experimental.UtilityClass;
-import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 
+/**
+ * 反射工具包
+ *
+ * @author yjgbg
+ */
 @Slf4j
 @UtilityClass
 public class ReflectUtils {
@@ -86,7 +92,7 @@ public class ReflectUtils {
     val arr = path.split("\\.");
     val lastIndex = arr.length - 1;
     val parent = Arrays.stream(arr, 0, lastIndex)
-        .reduce(obj, ReflectUtils::getValue0, (oa, ob) -> null);
+            .reduce(obj, ReflectUtils::getValue0, (oa, ob) -> null);
     setValue0(parent, arr[lastIndex], value);
   }
 
@@ -100,7 +106,7 @@ public class ReflectUtils {
   @SneakyThrows
   public Object getValue(@NonNull Object obj, String path) {
     return Arrays.stream(path.split("\\."))
-        .reduce(obj, ReflectUtils::getValue0, (oa, ob) -> null);
+            .reduce(obj, ReflectUtils::getValue0, (oa, ob) -> null);
   }
 
   /**
@@ -114,13 +120,14 @@ public class ReflectUtils {
     val geneSuperClass = c.getGenericSuperclass();
     val geneSuperInterfaces = c.getGenericInterfaces();
     return Stream.of(new Type[]{geneSuperClass},geneSuperInterfaces)
-        .flatMap(Arrays::stream)
-        .filter(geneType -> geneType instanceof ParameterizedType)
-        .map(geneType -> (ParameterizedType)geneType)
-        .filter(geneType -> geneType.getRawType()==clazz)
-        .findAny()
-        .orElse(null);
+            .flatMap(Arrays::stream)
+            .filter(geneType -> geneType instanceof ParameterizedType)
+            .map(geneType -> (ParameterizedType)geneType)
+            .filter(geneType -> geneType.getRawType()==clazz)
+            .findAny()
+            .orElse(null);
   }
+
   /**
    * 获取目标类的所有属性（包括从父类继承的）
    * @param clazz 目标类

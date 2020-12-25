@@ -1,4 +1,4 @@
-package com.github.yjgbg.jpa.plus.specificationSupport;
+package com.github.yjgbg.jpa.plus.specification.support;
 
 import com.github.yjgbg.jpa.plus.utils.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -7,14 +7,14 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 
 public interface GetterSupport<T, Self extends GetterSupport<T, Self>>
-        extends ChainSpecification<T, Self> {
+        extends ChainSupport<T, Self> {
 
     default <P> Self eq(Getter<T, P> path, P value) {
-        return eq(path.propertyName(),value);
+        return eq(path.propertyName(), value);
     }
 
     default <P> Self eq(boolean condition, Getter<T, P> path, P value) {
-        return eq(condition,path.propertyName(),value);
+        return eq(condition, path.propertyName(), value);
     }
 
     default <P> @NotNull Self ne(@NotNull Getter<T, P> path, @Nullable P value) {

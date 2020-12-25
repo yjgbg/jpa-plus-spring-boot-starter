@@ -1,4 +1,4 @@
-package com.github.yjgbg.jpa.plus.specificationSupport;
+package com.github.yjgbg.jpa.plus.specification.support;
 
 import lombok.val;
 import org.jetbrains.annotations.Contract;
@@ -15,21 +15,22 @@ import java.util.function.Function;
 
 /**
  * 查询Specification对象的组装
+ *
  * @param <T>
  * @param <Self>
  */
 
-public interface ChainSpecification<T,Self extends ChainSpecification<T,Self>> {
+public interface ChainSupport<T, Self extends ChainSupport<T, Self>> {
   @NotNull
   Self and(@Nullable Specification<T> specification);
 
-  default Self eq(String path,Object value) {
+  default Self eq(String path, Object value) {
     if (value == null) {
       return and((root, query, criteriaBuilder) ->
               criteriaBuilder.isNull(str2Path(root, path)));
     }
     return and((root, query, criteriaBuilder) ->
-        criteriaBuilder.equal(root.get(path), value));
+            criteriaBuilder.equal(root.get(path), value));
   }
 
   default Self eq(boolean condition,String path,Object value) {

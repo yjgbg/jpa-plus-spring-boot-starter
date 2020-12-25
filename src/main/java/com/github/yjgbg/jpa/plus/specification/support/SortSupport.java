@@ -1,17 +1,18 @@
-package com.github.yjgbg.jpa.plus.specificationSupport;
+package com.github.yjgbg.jpa.plus.specification.support;
 
 import com.github.yjgbg.jpa.plus.utils.Getter;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 
 import java.util.Arrays;
 import java.util.List;
-import org.springframework.data.domain.Sort.Direction;
 
 /**
  * 排序功能，模板模式
+ *
  * @param <Self>
  */
-interface Sortable<Self> {
+public interface SortSupport<Self> {
   Self sort(Sort sort);
 
   default Self sort(Sort.Order... orders) {
@@ -30,11 +31,11 @@ interface Sortable<Self> {
     return sort(Sort.by(Direction.DESC,properties));
   }
 
-  default Self sortAsc(Getter<?,?>... properties) {
-    return sort(Sort.by(Direction.ASC,Arrays.stream(properties).map(Getter::propertyName).toArray(String[]::new)));
+  private Self asc(Getter<?, ?>... properties) {
+    return sort(Sort.by(Direction.ASC, Arrays.stream(properties).map(Getter::propertyName).toArray(String[]::new)));
   }
 
-  default Self sortDesc(Getter<?,?>... properties) {
-    return sort(Sort.by(Direction.DESC,Arrays.stream(properties).map(Getter::propertyName).toArray(String[]::new)));
+  default Self desc(Getter<?, ?>... properties) {
+    return sort(Sort.by(Direction.DESC, Arrays.stream(properties).map(Getter::propertyName).toArray(String[]::new)));
   }
 }

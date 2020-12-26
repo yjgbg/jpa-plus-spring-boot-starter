@@ -1,19 +1,15 @@
 package com.github.yjgbg.jpa.plus.utils;
 
 import com.google.common.base.CaseFormat;
-import com.google.common.collect.Sets;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
-import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.*;
-import java.util.stream.Stream;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * 反射工具包
@@ -27,49 +23,26 @@ public class ReflectUtils {
   /**
    * 根据属性，获取get方法
    *
-   * @param ob 对象
+   * @param obj 对象
    * @param fieldName 属性名
    * @return return
    */
   @SneakyThrows
-  private Object getValue0(Object ob, String fieldName) {
-    if (ob == null) return null;
+  private Object getValue0(Object obj, String fieldName) {
+    if (obj == null) return null;
     val getMethodName  = "get"+CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL,fieldName);
-    return ob.getClass().getMethod(getMethodName).invoke(ob);
+    return obj.getClass().getMethod(getMethodName).invoke(obj);
   }
 
-  /**
-   * 根据属性名，拿到set方法，并把值set到对象中
-   *
-   * @param obj   对象
-   * @param value value
-   */
   @SneakyThrows
-  private void setValue0(Object obj, String fieldName, @Nullable Object value) {
-    if (obj == null) return;
+  private void setValue0(Object obj,String fieldName,Object value) {
+    // 如果以上情况都不满足，那么set Value
     val setMethodName = "set" + CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, fieldName);
-    val clazz = obj.getClass();
-    val method = Arrays.stream(clazz.getMethods())
+    val method = Arrays.stream(obj.getClass().getMethods())
             .filter(m -> Objects.equals(m.getName(), setMethodName))
             .filter(m -> m.getParameterCount() == 1)
             .findAny().orElseThrow(NoSuchMethodException::new);
     method.invoke(obj, value);
-  }
-
-  private void setValue(Iterable<?> iterable, String name, Object value) {
-    log.debug("setValue(coll,{},{})",name,value);
-    iterable.forEach(item -> {
-      if (item!=null) setValue(item, name, value);
-    });
-  }
-
-  @SuppressWarnings({"rawtypes", "unchecked"})
-  private void setValue(Map map, String path, Object value) {
-    log.debug("setValue(map,{},{})",path,value);
-    val arr = path.split("\\.");
-    if (arr.length==1) map.put(path, value);
-    else if (map.get(arr[0])!=null)
-      setValue(map.get(arr[0]),path.substring(arr[0].length()+1),value);
   }
 
   /**
@@ -81,65 +54,32 @@ public class ReflectUtils {
    * @param value 值
    */
   @SneakyThrows
-  @SuppressWarnings("rawtypes")
+  @SuppressWarnings({"rawtypes","unchecked"})
   public void setValue(@NonNull Object obj, String path, Object value) {
     log.debug("setValue(obj,{},{})",path,value);
-    if (obj instanceof Iterable) {
-      setValue((Iterable<?>) obj, path, value);
-      return;
-    }
-    if (obj instanceof Map) {
-      setValue((Map) obj, path, value);
-      return;
-    }
+    if (obj==null) return; // 如果obj为空，直接返回
+    // 如果obj是集合，那么直接穿透，对每个元素递归该函数
+    if (obj instanceof Iterable) ((Iterable<?>) obj).forEach(item -> setValue(item, path, value));
+    if (obj instanceof Iterable) return;
     val arr = path.split("\\.");
-    val lastIndex = arr.length - 1;
-    val parent = Arrays.stream(arr, 0, lastIndex)
-            .reduce(obj, ReflectUtils::getValue0, (oa, ob) -> null);
-    setValue0(parent, arr[lastIndex], value);
-  }
-
-  /**
-   * 根据path路径获取属性的值，
-   * 如参数(obj,"field1.subfield2")将执行代码：obj.getField1().getField2();
-   * @param obj 目标对象
-   * @param path 目标属性的路径
-   * @return 目标属性的值
-   */
-  @SneakyThrows
-  public Object getValue(@NonNull Object obj, String path) {
-    return Arrays.stream(path.split("\\."))
-            .reduce(obj, ReflectUtils::getValue0, (oa, ob) -> null);
-  }
-
-  /**
-   * 查询到类c的父类或接口中rawType为类clazz的泛型类
-   * 类c为clazz的子类，并且clazz带泛型，于是此方法为查询到泛型父类
-   * @param c 子类的类对象
-   * @param clazz 父类或接口的类对象
-   * @return 父类或接口的泛型类型
-   */
-  public ParameterizedType getTargetGenericParent(Class<?> c,Class<?> clazz) {
-    val geneSuperClass = c.getGenericSuperclass();
-    val geneSuperInterfaces = c.getGenericInterfaces();
-    return Stream.of(new Type[]{geneSuperClass},geneSuperInterfaces)
-            .flatMap(Arrays::stream)
-            .filter(geneType -> geneType instanceof ParameterizedType)
-            .map(geneType -> (ParameterizedType)geneType)
-            .filter(geneType -> geneType.getRawType()==clazz)
-            .findAny()
-            .orElse(null);
-  }
-
-  /**
-   * 获取目标类的所有属性（包括从父类继承的）
-   * @param clazz 目标类
-   * @return 属性集
-   */
-  public Set<Field> getAllFields(Class<?> clazz) {
-    if (clazz==Object.class) return Sets.newHashSet();
-    val fields = Sets.newHashSet(clazz.getDeclaredFields());
-    val fieldsInParent = getAllFields(clazz.getSuperclass());
-    return Sets.union(fields,fieldsInParent);
+    val isMap = obj instanceof Map;
+    val lenEq1 = arr.length == 1;
+    // 按照path中是否包含点和obj是否为map，正交分为4种情况
+    if (isMap && lenEq1) {
+      ((Map) obj).put(path, value);
+    } else if (isMap) {
+      // 并且path中没有点，那么直接put即可
+      // 如果path中有点，那么get到值，并递归该函数
+      val subObj = ((Map<?, ?>) obj).get(arr[0]);
+      val subPath = path.replace(arr[0]+".","");
+      setValue(subObj,subPath,value);
+    } else if (lenEq1) {
+      // 如果以上情况都不满足，那么set Value
+      setValue0(obj,path,value);
+    } else {// 如果存在点，那么get到值之后递归该函数
+      val subObj = getValue0(obj,arr[0]);
+      val subPath = path.replace(arr[0]+".","");
+      setValue(subObj,subPath,value);
+    }
   }
 }

@@ -16,11 +16,11 @@ public interface EntityGraphSupport<Self, T> {
 
     Self setEntityGraph(EntityGraph<T> entityGraph);
 
-    private void processingAbstractGraph(Consumer<String[]> consumer, Function<String, Subgraph<?>> function, String... props) {
+    private void processingAbstractGraph(Consumer<String[]> addAttributeNodes, Function<String, Subgraph<?>> addSubgraph, String... props) {
         val direct = Arrays.stream(props)
                 .filter(x -> !x.contains("."))
                 .toArray(String[]::new);
-        consumer.accept(direct);
+        addAttributeNodes.accept(direct);
         // 根据第一个点之前的字符
         var map = Arrays.stream(props)
                 .filter(x -> x.contains("."))
@@ -35,7 +35,7 @@ public interface EntityGraphSupport<Self, T> {
                 }).collect(Collectors.groupingBy(newObj -> newObj.pre, Collectors.toList()));
         map.forEach((key, value) -> {
             val strings = value.stream().map(newObj -> newObj.suf).toArray(String[]::new);
-            val subSub = function.apply(key);
+            val subSub = addSubgraph.apply(key);
             processingAbstractGraph(subSub::addAttributeNodes, subSub::addSubgraph, strings);
         });
     }

@@ -56,9 +56,9 @@ public class ReflectUtils {
     method.invoke(obj, value);
   }
 
-  private void setValue(Collection<?> coll, String name, Object value) {
+  private void setValue(Iterable<?> iterable, String name, Object value) {
     log.debug("setValue(coll,{},{})",name,value);
-    coll.forEach(item -> {
+    iterable.forEach(item -> {
       if (item!=null) setValue(item, name, value);
     });
   }
@@ -84,8 +84,8 @@ public class ReflectUtils {
   @SuppressWarnings("rawtypes")
   public void setValue(@NonNull Object obj, String path, Object value) {
     log.debug("setValue(obj,{},{})",path,value);
-    if (obj instanceof Collection) {
-      setValue((Collection<?>) obj, path, value);
+    if (obj instanceof Iterable) {
+      setValue((Iterable<?>) obj, path, value);
       return;
     }
     if (obj instanceof Map) {

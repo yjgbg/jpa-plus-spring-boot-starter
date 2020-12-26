@@ -31,11 +31,11 @@ public interface SortSupport<Self> {
     return sort(Sort.by(Direction.DESC,properties));
   }
 
-  private Self asc(Getter<?, ?>... properties) {
+  private Self sortAsc(Getter<?, ?>... properties) {
     return sort(Sort.by(Direction.ASC, Arrays.stream(properties).map(Getter::propertyName).toArray(String[]::new)));
   }
 
-  default Self desc(Getter<?, ?>... properties) {
+  default Self sortDesc(Getter<?, ?>... properties) {
     return sort(Sort.by(Direction.DESC, Arrays.stream(properties).map(Getter::propertyName).toArray(String[]::new)));
   }
 }

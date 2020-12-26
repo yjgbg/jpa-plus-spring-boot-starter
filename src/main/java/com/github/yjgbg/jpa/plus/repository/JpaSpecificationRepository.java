@@ -31,16 +31,13 @@ public interface JpaSpecificationRepository<T> extends JpaSpecificationExecutor<
     Class<T> getDomainClass();
 
     List<T> findAll(@Nullable Specification<T> specification,
-                    EntityGraphType entityGraphType,
                     @Nullable EntityGraph<T> entityGraph,
                     @NotNull Sort sort);
 
     Page<T> findAll(@Nullable Specification<T> specification,
-                    EntityGraphType entityGraphType,
                     @Nullable EntityGraph<T> entityGraph,
                     @NotNull Pageable pageable);
 
     Optional<T> findOne(@Nullable Specification<T> specification,
-                        EntityGraphType entityGraphType,
                         @Nullable EntityGraph<T> entityGraph);
 }

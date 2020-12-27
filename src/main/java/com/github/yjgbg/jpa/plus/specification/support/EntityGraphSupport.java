@@ -21,7 +21,7 @@ public interface EntityGraphSupport<Self, T> {
                 .filter(x -> !x.contains("."))
                 .toArray(String[]::new);
         addAttributeNodes.accept(direct);
-        // 根据第一个点之前的字符
+        // 根据第一个点之前的字符分组
         var map = Arrays.stream(props)
                 .filter(x -> x.contains("."))
                 .map(x -> {
@@ -32,11 +32,11 @@ public interface EntityGraphSupport<Self, T> {
                         final String pre = prefix;
                         final String suf = suffix;
                     };
-                }).collect(Collectors.groupingBy(newObj -> newObj.pre, Collectors.toList()));
+                }).collect(Collectors.groupingBy(newObj -> newObj.pre));
         map.forEach((key, value) -> {
             val strings = value.stream().map(newObj -> newObj.suf).toArray(String[]::new);
-            val subSub = addSubgraph.apply(key);
-            processingAbstractGraph(subSub::addAttributeNodes, subSub::addSubgraph, strings);
+            val subgraph = addSubgraph.apply(key);
+            processingAbstractGraph(subgraph::addAttributeNodes, subgraph::addSubgraph, strings);
         });
     }
 

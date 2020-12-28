@@ -1,4 +1,4 @@
-package com.github.yjgbg.jpa.plus.specificationSupport;
+package com.github.yjgbg.jpa.plus.specification.support;
 
 import lombok.val;
 import org.jetbrains.annotations.Contract;
@@ -14,40 +14,52 @@ import java.util.Collection;
 import java.util.function.Function;
 
 /**
+ * 该类用于组织查询条件，参数path为属性的名称，参数value为属性的值
  * 查询Specification对象的组装
+ *
  * @param <T>
  * @param <Self>
  */
-
-public interface ChainSpecification<T,Self extends ChainSpecification<T,Self>> {
+public interface ChainSupport<T, Self extends ChainSupport<T, Self>> {
   @NotNull
   Self and(@Nullable Specification<T> specification);
 
-  default Self eq(String path,Object value) {
+  /**
+   * 查询条件：prop所代表的属性是否等于value
+   *
+   * @param path
+   * @param value
+   * @return
+   */
+  default Self eq(String path, Object value) {
     if (value == null) {
       return and((root, query, criteriaBuilder) ->
               criteriaBuilder.isNull(str2Path(root, path)));
     }
     return and((root, query, criteriaBuilder) ->
-        criteriaBuilder.equal(root.get(path), value));
+            criteriaBuilder.equal(root.get(path), value));
   }
 
-  default Self eq(boolean condition,String path,Object value) {
-    return cond(condition,x -> x.eq(path, value));
+  /**
+   * 根据condition的真值决定是否需要此条查询条件
+   * 作用相当于：
+   * if(condition) spec = spec.eq(path,value);
+   *
+   * @param condition
+   * @param path
+   * @param value
+   * @return
+   */
+  default Self eq(boolean condition, String path, Object value) {
+    return cond(condition, x -> x.eq(path, value));
   }
 
   @NotNull
   default Self example(@NotNull T probe) {
     return and((root, query, criteriaBuilder) ->
-        QueryByExamplePredicateBuilder.getPredicate(root, criteriaBuilder, Example.of(probe)));
+            QueryByExamplePredicateBuilder.getPredicate(root, criteriaBuilder, Example.of(probe)));
   }
 
-  /**
-   * 满足condition时，后面的lambda生效
-   * @param condition
-   * @param functor
-   * @return
-   */
   @NotNull
   @SuppressWarnings("unchecked")
   default Self cond(boolean condition, @NotNull Function<Self, @NotNull Self> functor) {
@@ -112,7 +124,7 @@ public interface ChainSpecification<T,Self extends ChainSpecification<T,Self>> {
   }
 
   @NotNull
-  default Self in(@NotNull String path, @NotNull Collection<Object> value) {
+  default <R> Self in(@NotNull String path, @NotNull Collection<R> value) {
     return and((root, query, criteriaBuilder) -> {
       val p = criteriaBuilder.in(str2Path(root, path));
       value.forEach(p::value);
@@ -149,10 +161,10 @@ public interface ChainSpecification<T,Self extends ChainSpecification<T,Self>> {
 
   @NotNull
   @Contract(pure = true)
-  private static <P> Path<P> str2Path(@NotNull Path<?> path, @NotNull String string) {
+  static <P> Path<P> str2Path(@NotNull Path<?> root, @NotNull String string) {
     @SuppressWarnings("unchecked")
-    val castPath = (Path<P>) path;
+    val path = (Path<P>) root;
     return Arrays.stream(string.split("\\."))
-        .reduce(castPath, Path::get, (a, b) -> a);
+        .reduce(path, Path::get, (a, b) -> a);
   }
 }

@@ -7,7 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.repository.EntityGraph.EntityGraphType;
 
 import javax.persistence.EntityGraph;
 import java.util.List;
@@ -32,21 +31,19 @@ public interface ExecuteSupport<T> extends Specification<T> {
     @NotNull
     default Optional<T> findOne() {
         return getJpaSpecificationRepository().findOne(this,
-                EntityGraphType.LOAD,getEntityGraph());
+                getEntityGraph());
     }
 
     @NotNull
     default List<T> findAll() {
         return getJpaSpecificationRepository().findAll(this,
-                EntityGraphType.LOAD,getEntityGraph(),
-                getSort());
+                getEntityGraph(), getSort());
     }
 
     @NotNull
     default Page<T> findAll(int page, int size) {
         return getJpaSpecificationRepository().findAll(this,
-                EntityGraphType.LOAD,getEntityGraph(),
-                PageRequest.of(page, size, getSort()));
+                getEntityGraph(), PageRequest.of(page, size, getSort()));
     }
 
     default long count() {

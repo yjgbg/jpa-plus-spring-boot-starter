@@ -1,6 +1,7 @@
 package com.github.yjgbg.jpa.plus.specification.support;
 
 import com.github.yjgbg.jpa.plus.utils.Getter;
+import lombok.val;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 
@@ -23,19 +24,30 @@ public interface SortSupport<Self> {
     return sort(Sort.by(orders));
   }
 
+  default Self sort(Direction direction, String... properties) {
+    return sort(Sort.by(direction, properties));
+  }
+
   default Self sortAsc(String... properties) {
-    return sort(Sort.by(Direction.ASC,properties));
+    return sort(Sort.by(Direction.ASC, properties));
   }
 
   default Self sortDesc(String... properties) {
-    return sort(Sort.by(Direction.DESC,properties));
+    return sort(Sort.by(Direction.DESC, properties));
   }
 
-  private Self asc(Getter<?, ?>... properties) {
-    return sort(Sort.by(Direction.ASC, Arrays.stream(properties).map(Getter::propertyName).toArray(String[]::new)));
+  default Self sort(Direction direction, Getter<?, ?>... properties) {
+    val propsStrings = Arrays.stream(properties).map(Getter::propertyName).toArray(String[]::new);
+    return sort(Sort.by(direction, propsStrings));
   }
 
-  default Self desc(Getter<?, ?>... properties) {
-    return sort(Sort.by(Direction.DESC, Arrays.stream(properties).map(Getter::propertyName).toArray(String[]::new)));
+  default Self sortAsc(Getter<?, ?>... properties) {
+    val propsStrings = Arrays.stream(properties).map(Getter::propertyName).toArray(String[]::new);
+    return sort(Sort.by(Direction.ASC, propsStrings));
+  }
+
+  default Self sortDesc(Getter<?, ?>... properties) {
+    val propsStrings = Arrays.stream(properties).map(Getter::propertyName).toArray(String[]::new);
+    return sort(Sort.by(Direction.DESC, propsStrings));
   }
 }

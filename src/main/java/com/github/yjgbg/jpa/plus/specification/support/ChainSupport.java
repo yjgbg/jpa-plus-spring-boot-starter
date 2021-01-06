@@ -37,7 +37,7 @@ public interface ChainSupport<T, Self extends ChainSupport<T, Self>> {
               criteriaBuilder.isNull(str2Path(root, path)));
     }
     return and((root, query, criteriaBuilder) ->
-            criteriaBuilder.equal(root.get(path), value));
+            criteriaBuilder.equal(str2Path(root, path), value));
   }
 
   /**
@@ -70,10 +70,10 @@ public interface ChainSupport<T, Self extends ChainSupport<T, Self>> {
   default Self ne(@NotNull String path, @Nullable Object value) {
     if (value == null) {
       return and((root, query, criteriaBuilder) ->
-              criteriaBuilder.isNotNull(root.get(path)));
+              criteriaBuilder.isNotNull(str2Path(root, path)));
     }
     return and((root, query, criteriaBuilder) ->
-        criteriaBuilder.notEqual(root.get(path), value));
+            criteriaBuilder.notEqual(str2Path(root, path), value));
   }
 
   @NotNull
@@ -125,6 +125,7 @@ public interface ChainSupport<T, Self extends ChainSupport<T, Self>> {
 
   @NotNull
   default <R> Self in(@NotNull String path, @NotNull Collection<R> value) {
+    if (value.size() == 1) return eq(path, value.iterator().next());
     return and((root, query, criteriaBuilder) -> {
       val p = criteriaBuilder.in(str2Path(root, path));
       value.forEach(p::value);
@@ -134,6 +135,7 @@ public interface ChainSupport<T, Self extends ChainSupport<T, Self>> {
 
   @NotNull
   default Self in(@NotNull String path, Object... value) {
+    if (value.length == 1) return eq(path, value[0]);
     return and((root, query, criteriaBuilder) -> {
       val p = criteriaBuilder.in(str2Path(root, path));
       Arrays.stream(value).forEach(p::value);

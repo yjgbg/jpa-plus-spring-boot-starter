@@ -46,9 +46,8 @@ public class JpaSpecificationRepositoryImpl<T, ID> extends SimpleJpaRepository<T
     public Page<T> findAll(Specification<T> specification,
                            @Nullable EntityGraph<T> entityGraph,
                            @NotNull Pageable pageable) {
-        if (entityGraph == null) return findAll(specification, pageable);
-        val query = getQuery(specification, pageable);
-        query.setHint(DEFAULT_ENTITY_GRAPH_TYPE.getKey(), entityGraph);
+        val query = getQuery(specification, pageable.previousOrFirst());
+        if (entityGraph != null) query.setHint(DEFAULT_ENTITY_GRAPH_TYPE.getKey(), entityGraph);
         return pageable.isUnpaged() ? new PageImpl<>(query.getResultList())
                 : readPage(query, getDomainClass(), pageable, specification);
     }

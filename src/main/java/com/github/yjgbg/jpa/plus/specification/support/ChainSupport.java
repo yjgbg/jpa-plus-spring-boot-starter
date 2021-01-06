@@ -125,6 +125,7 @@ public interface ChainSupport<T, Self extends ChainSupport<T, Self>> {
 
   @NotNull
   default <R> Self in(@NotNull String path, @NotNull Collection<R> value) {
+    if (value.size() == 1) return eq(path, value.iterator().next());
     return and((root, query, criteriaBuilder) -> {
       val p = criteriaBuilder.in(str2Path(root, path));
       value.forEach(p::value);
@@ -134,6 +135,7 @@ public interface ChainSupport<T, Self extends ChainSupport<T, Self>> {
 
   @NotNull
   default Self in(@NotNull String path, Object... value) {
+    if (value.length == 1) return eq(path, value[0]);
     return and((root, query, criteriaBuilder) -> {
       val p = criteriaBuilder.in(str2Path(root, path));
       Arrays.stream(value).forEach(p::value);

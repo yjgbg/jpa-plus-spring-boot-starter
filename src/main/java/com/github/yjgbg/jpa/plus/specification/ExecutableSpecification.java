@@ -90,6 +90,8 @@ public class ExecutableSpecification<T> implements
 
     @NotNull
     public ExecutableSpecification<T> OR() {
+        if (previous == null)
+            throw new UnsupportedOperationException("不可以在没有前置条件的时候开启OR模式");
         orFlag = true;
         return this;
     }
@@ -109,6 +111,7 @@ public class ExecutableSpecification<T> implements
      * 刷出previous变量
      */
     private void flush() {
+        if (orFlag) throw new UnsupportedOperationException("不合法的调用，不可以在开启OR模式时关闭条件构造器");
         if (previous == null) return;
         val beforeAnd = getCurrentSpec();
         val afterAnd = beforeAnd == null ?

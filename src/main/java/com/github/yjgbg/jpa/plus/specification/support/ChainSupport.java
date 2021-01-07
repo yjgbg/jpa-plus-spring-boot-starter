@@ -22,7 +22,7 @@ import java.util.function.Function;
  */
 public interface ChainSupport<T, Self extends ChainSupport<T, Self>> {
   @NotNull
-  Self and(@Nullable Specification<T> specification);
+  Self and(@NotNull Specification<T> specification);
 
   /**
    * 查询条件：prop所代表的属性是否等于value

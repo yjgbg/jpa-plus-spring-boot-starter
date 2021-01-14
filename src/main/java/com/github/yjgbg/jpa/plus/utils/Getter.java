@@ -114,12 +114,9 @@ public interface Getter<A, B> extends Function<A, B>, Serializable {
             }
         };
     }
-}
 
-/**
- * 包级常量，不暴露到外部
- */
-class PackageCascade {
-    static String DELIMITER = ".";
-    static HashMap<Class<?>, String> GETTER_NAME_CACHE = new HashMap<>();
+    class PackageCascade {
+        static final String DELIMITER = ".";
+        static final HashMap<Class<?>, String> GETTER_NAME_CACHE = new HashMap<>();
+    }
 }

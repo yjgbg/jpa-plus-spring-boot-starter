@@ -1,21 +1,26 @@
 package com.github.yjgbg.jpa.plus.repository;
 
 import com.github.yjgbg.jpa.plus.specification.ExecutableSpecification;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.NoRepositoryBean;
+import com.github.yjgbg.jpa.plus.specification.api.QueryExecutor;
+
+import javax.persistence.EntityManager;
 
 /**
  * @author yjgbg
  */
-@NoRepositoryBean
-public interface StdRepository<T,ID>
-    extends JpaSpecificationRepository<T>, JpaRepository<T,ID> {
-  /**
-   * 获取到一个可执行(find，count等函数)的Specification
-   *
-   * @return 可执行(find ， count等函数)的Specification
-   */
-  default ExecutableSpecification<T> spec() {
-    return new ExecutableSpecification<>(this);
-  }
+public class StdRepository<T> {
+    private final QueryExecutor<T> queryExecutor;
+
+    public StdRepository(EntityManager entityManager, Class<T> domainClass) {
+        queryExecutor = QueryExecutor.of(entityManager, domainClass);
+    }
+
+    /**
+     * 获取到一个可执行(find，count等函数)的Specification
+     *
+     * @return 可执行(find ， count等函数)的Specification
+     */
+    ExecutableSpecification<T> spec() {
+        return new ExecutableSpecification<>(queryExecutor);
+    }
 }

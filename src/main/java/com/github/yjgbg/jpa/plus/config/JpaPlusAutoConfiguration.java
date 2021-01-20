@@ -18,31 +18,31 @@ import javax.transaction.Transactional;
 @SpringBootConfiguration
 @ConditionalOnClass(JpaPlusAutoConfiguration.class)
 public class JpaPlusAutoConfiguration {
-    public static JpaPlusAutoConfiguration SELF;
-    public final EntityManager entityManager;
+  public static JpaPlusAutoConfiguration SELF;
+  public final EntityManager entityManager;
 
-    @Autowired
-    public void injectSelf(JpaPlusAutoConfiguration self) {
-        ActiveEntityHelper.registerRemoveFunction(self::remove); // 注册ActiveEntity
-        ActiveEntityHelper.registerSaveFunction(self::save); // 注册ActiveEntity
-        JpaPlusAutoConfiguration.SELF = self;
-    }
+  @Autowired
+  public void injectSelf(JpaPlusAutoConfiguration self) {
+    ActiveEntityHelper.registerRemoveFunction(self::remove); // 注册ActiveEntity
+    ActiveEntityHelper.registerSaveFunction(self::save); // 注册ActiveEntity
+    JpaPlusAutoConfiguration.SELF = self;
+  }
 
-    @Bean
-    @ConditionalOnClass(JpaPlusAutoConfiguration.class)
-    public ReturnPropsSetNullProcessing returnPropsSetNullProcessing() {
-        return new ReturnPropsSetNullProcessing();
-    }
+  @Bean
+  @ConditionalOnClass(JpaPlusAutoConfiguration.class)
+  public ReturnPropsSetNullProcessing returnPropsSetNullProcessing() {
+    return new ReturnPropsSetNullProcessing();
+  }
 
-    @Modifying
-    @Transactional
-    public <T> T save(T entity) {
-        return entityManager.merge(entity);
-    }
+  @Modifying
+  @Transactional
+  public <T> T save(T entity) {
+    return entityManager.merge(entity);
+  }
 
-    @Modifying
-    @Transactional
-    public void remove(Object entity) {
-        entityManager.remove(entity);
-    }
+  @Modifying
+  @Transactional
+  public void remove(Object entity) {
+    entityManager.remove(entity);
+  }
 }

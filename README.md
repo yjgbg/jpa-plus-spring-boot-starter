@@ -4,7 +4,7 @@
 
 ## User Guide
 从maven中引入包，替换掉spring-boot-starter-data-jpa即可,
-功能为spring-boot-starter-data-jpa的超集,可以便捷的构造查询条件
+功能为spring-boot-starter-data-jpa的超集,就可以便捷的构造查询条件
 ```xml
 <dependency>
     <groupId>com.github.yjgbg</groupId>

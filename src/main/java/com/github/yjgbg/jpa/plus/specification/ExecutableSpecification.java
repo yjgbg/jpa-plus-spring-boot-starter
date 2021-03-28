@@ -4,7 +4,6 @@ import com.github.yjgbg.jpa.plus.repository.JpaSpecificationRepository;
 import com.github.yjgbg.jpa.plus.specification.support.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.val;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.data.domain.Sort;
@@ -52,8 +51,8 @@ public class ExecutableSpecification<T> implements
     @NotNull
     public ExecutableSpecification<T> and(@Nullable Specification<T> value) {
         if (value == null) return this;
-        val beforeAnd = getCurrentSpec();
-        val afterAnd = beforeAnd == null ?
+        final var beforeAnd = getCurrentSpec();
+        final var afterAnd = beforeAnd == null ?
                 value : beforeAnd.and(value);
         setCurrentSpec(afterAnd);
         return this;

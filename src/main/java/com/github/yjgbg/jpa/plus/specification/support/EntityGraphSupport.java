@@ -45,9 +45,8 @@ public interface EntityGraphSupport<Self, T> {
     }
 
     default Self eager(String... props) {
-        val em = JpaPlusAutoConfiguration.SELF.getEntityManager();
         val domainClass = getDomainClass();
-        val entityGraph = em.createEntityGraph(domainClass);
+        val entityGraph =  JpaPlusAutoConfiguration.SELF.entityManager.createEntityGraph(domainClass);
         processingEntityGraph(entityGraph, props);
         return setEntityGraph(entityGraph);
     }

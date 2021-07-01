@@ -9,24 +9,6 @@
   <name>jpa-plus-spring-boot-starter</name>
   <description>spring-data-jpa加强</description>
   <url>https://github.com/yjgbg/jpa-plus-spring-boot-starter</url>
-  <licenses>
-    <license>
-      <name>The MIT License</name>
-      <url>https://raw.githubusercontent.com/yjgbg/jpa-plus-spring-boot-starter/master/LICENSE</url>
-    </license>
-  </licenses>
-  <developers>
-    <developer>
-      <name>yjgbg</name>
-      <email>yjgbg1239461052@gmail.com</email>
-      <url>https://github.com/yjgbg</url>
-    </developer>
-  </developers>
-  <scm>
-    <url>https://github.com/yjgbg/jpa-plus-spring-boot-starter.git</url>
-    <connection>https://github.com/yjgbg/jpa-plus-spring-boot-starter.git</connection>
-    <developerConnection>https://github.com/yjgbg</developerConnection>
-  </scm>
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
@@ -55,23 +37,6 @@
   </dependencies>
   <build>
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.2.0</version>
-        <executions>
-          <execution>
-            <id>attach-javadocs</id>
-            <phase>package</phase>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-            <configuration>
-              <doclint>none</doclint>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>

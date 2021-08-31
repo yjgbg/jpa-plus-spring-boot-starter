@@ -1,11 +1,11 @@
 package com.github.yjgbg.jpa.plus.utils;
 
 import com.google.common.base.CaseFormat;
-import lombok.NonNull;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -55,7 +55,7 @@ public class ReflectUtils {
    */
   @SneakyThrows
   @SuppressWarnings({"rawtypes","unchecked"})
-  public void setValue(@NonNull Object obj, String path, Object value) {
+  public void setValue(@Nullable Object obj, String path, Object value) {
     log.debug("setValue(obj,{},{})",path,value);
     if (obj==null) return; // 如果obj为空，直接返回
     // 如果obj是集合，那么直接穿透，对每个元素递归该函数

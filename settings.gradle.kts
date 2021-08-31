@@ -1,0 +1,1 @@
+rootProject.name = "jpa-plus-spring-boot-starter"

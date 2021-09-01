@@ -1,5 +1,5 @@
 plugins {
-    java
+    `java-library`
     `maven-publish`
 }
 
@@ -14,9 +14,9 @@ repositories {
 
 
 dependencies {
-    implementation("com.github.yjgbg:active-entity:1.3")
-    implementation("com.google.guava:guava:30.1.1-jre")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa:2.5.4")
+    api("com.github.yjgbg:active-entity:1.3")
+    api("com.google.guava:guava:30.1.1-jre")
+    api("org.springframework.boot:spring-boot-starter-data-jpa:2.5.4")
     compileOnly("org.jetbrains:annotations:+")
     compileOnly("org.projectlombok:lombok:+")
     annotationProcessor("org.projectlombok:lombok:+")

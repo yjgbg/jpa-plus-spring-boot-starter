@@ -21,6 +21,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @EnableJpaRepositories
 public @interface EnableJpaPlusRepositories {
+    @AliasFor(annotation = EnableJpaRepositories.class)
     String[] value() default {};
 
     @AliasFor(annotation = EnableJpaRepositories.class)
@@ -64,4 +65,7 @@ public @interface EnableJpaPlusRepositories {
 
     @AliasFor(annotation = EnableJpaRepositories.class)
     BootstrapMode bootstrapMode() default BootstrapMode.DEFAULT;
+
+    @AliasFor(annotation = EnableJpaRepositories.class)
+    char escapeCharacter() default '\\';
 }

@@ -1,7 +1,5 @@
 package com.github.yjgbg.jpa.plus.specification.support;
 
-import com.github.yjgbg.jpa.plus.utils.Getter;
-import lombok.val;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 
@@ -37,17 +35,17 @@ public interface SortSupport<Self> {
   }
 
   default Self sort(Direction direction, Getter<?, ?>... properties) {
-    val propsStrings = Arrays.stream(properties).map(Getter::propertyName).toArray(String[]::new);
+    final var propsStrings = Arrays.stream(properties).map(Getter::propertyName).toArray(String[]::new);
     return sort(Sort.by(direction, propsStrings));
   }
 
   default Self sortAsc(Getter<?, ?>... properties) {
-    val propsStrings = Arrays.stream(properties).map(Getter::propertyName).toArray(String[]::new);
+    final var propsStrings = Arrays.stream(properties).map(Getter::propertyName).toArray(String[]::new);
     return sort(Sort.by(Direction.ASC, propsStrings));
   }
 
   default Self sortDesc(Getter<?, ?>... properties) {
-    val propsStrings = Arrays.stream(properties).map(Getter::propertyName).toArray(String[]::new);
+    final var propsStrings = Arrays.stream(properties).map(Getter::propertyName).toArray(String[]::new);
     return sort(Sort.by(Direction.DESC, propsStrings));
   }
 }

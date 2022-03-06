@@ -37,7 +37,7 @@ public class JpaSpecificationRepositoryImpl<T, ID> extends SimpleJpaRepository<T
                            @Nullable EntityGraph<T> entityGraph,
                            @NotNull Sort sort) {
         if (entityGraph == null) return findAll(specification, sort);
-        val query = getQuery(specification, sort);
+        final var query = getQuery(specification, sort);
         query.setHint(DEFAULT_ENTITY_GRAPH_TYPE.getKey(), entityGraph);
         return query.getResultList();
     }
@@ -46,7 +46,7 @@ public class JpaSpecificationRepositoryImpl<T, ID> extends SimpleJpaRepository<T
     public Page<T> findAll(Specification<T> specification,
                            @Nullable EntityGraph<T> entityGraph,
                            @NotNull Pageable pageable) {
-        val query = getQuery(specification, pageable.previousOrFirst());
+        final var query = getQuery(specification, pageable.previousOrFirst());
         if (entityGraph != null) query.setHint(DEFAULT_ENTITY_GRAPH_TYPE.getKey(), entityGraph);
         return pageable.isUnpaged() ? new PageImpl<>(query.getResultList())
                 : readPage(query, getDomainClass(), pageable, specification);
@@ -57,7 +57,7 @@ public class JpaSpecificationRepositoryImpl<T, ID> extends SimpleJpaRepository<T
                                @Nullable EntityGraph<T> entityGraph) {
         if (entityGraph==null) return findOne(specification);
         try {
-            val query = getQuery(specification, Sort.unsorted());
+            final var query = getQuery(specification, Sort.unsorted());
             query.setHint(DEFAULT_ENTITY_GRAPH_TYPE.getKey(), entityGraph);
             return Optional.ofNullable(query.getSingleResult());
         } catch (NoResultException op) {

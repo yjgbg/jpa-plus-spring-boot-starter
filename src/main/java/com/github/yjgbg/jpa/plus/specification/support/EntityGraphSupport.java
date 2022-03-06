@@ -1,8 +1,6 @@
 package com.github.yjgbg.jpa.plus.specification.support;
 
-import com.github.yjgbg.jpa.plus.config.JpaPlusAutoConfiguration;
-import com.github.yjgbg.jpa.plus.utils.Getter;
-import lombok.val;
+import com.github.yjgbg.jpa.plus.config.JpaPlusConfiguration;
 
 import javax.persistence.EntityGraph;
 import javax.persistence.Subgraph;
@@ -17,7 +15,7 @@ public interface EntityGraphSupport<Self, T> {
     Self setEntityGraph(EntityGraph<T> entityGraph);
 
     private void processingAbstractGraph(Consumer<String[]> addAttributeNodes, Function<String, Subgraph<?>> addSubgraph, String... props) {
-        val direct = Arrays.stream(props)
+        final var direct = Arrays.stream(props)
                 .filter(x -> !x.contains("."))
                 .toArray(String[]::new);
         addAttributeNodes.accept(direct);
@@ -25,17 +23,17 @@ public interface EntityGraphSupport<Self, T> {
         var map = Arrays.stream(props)
                 .filter(x -> x.contains("."))
                 .map(x -> {
-                    val index = x.indexOf('.');
-                    val prefix = x.substring(0, index);
-                    val suffix = x.substring(index + 1);
+                    final var index = x.indexOf('.');
+                    final var prefix = x.substring(0, index);
+                    final var suffix = x.substring(index + 1);
                     return new Object() {
                         final String pre = prefix;
                         final String suf = suffix;
                     };
                 }).collect(Collectors.groupingBy(newObj -> newObj.pre));
         map.forEach((key, value) -> {
-            val strings = value.stream().map(newObj -> newObj.suf).toArray(String[]::new);
-            val subgraph = addSubgraph.apply(key);
+            final var strings = value.stream().map(newObj -> newObj.suf).toArray(String[]::new);
+            final var subgraph = addSubgraph.apply(key);
             processingAbstractGraph(subgraph::addAttributeNodes, subgraph::addSubgraph, strings);
         });
     }
@@ -45,9 +43,9 @@ public interface EntityGraphSupport<Self, T> {
     }
 
     default Self eager(String... props) {
-        val em = JpaPlusAutoConfiguration.SELF.getEntityManager();
-        val domainClass = getDomainClass();
-        val entityGraph = em.createEntityGraph(domainClass);
+        final var em = JpaPlusConfiguration.self().getEntityManager();
+        final var domainClass = getDomainClass();
+        final var entityGraph = em.createEntityGraph(domainClass);
         processingEntityGraph(entityGraph, props);
         return setEntityGraph(entityGraph);
     }

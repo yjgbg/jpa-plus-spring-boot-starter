@@ -1,6 +1,5 @@
 package com.github.yjgbg.jpa.plus.specification.support;
 
-import lombok.val;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -127,7 +126,7 @@ public interface ChainSupport<T, Self extends ChainSupport<T, Self>> {
   default Self in(@NotNull String path, @NotNull Collection<?> value) {
     if (value.size() == 1) return eq(path, value.iterator().next());
     return and((root, query, criteriaBuilder) -> {
-      val p = criteriaBuilder.in(str2Path(root, path));
+      final var p = criteriaBuilder.in(str2Path(root, path));
       value.forEach(p::value);
       return p;
     });
@@ -137,7 +136,7 @@ public interface ChainSupport<T, Self extends ChainSupport<T, Self>> {
   default Self in(@NotNull String path, Object... value) {
     if (value.length == 1) return eq(path, value[0]);
     return and((root, query, criteriaBuilder) -> {
-      val p = criteriaBuilder.in(str2Path(root, path));
+      final var p = criteriaBuilder.in(str2Path(root, path));
       Arrays.stream(value).forEach(p::value);
       return p;
     });
@@ -146,7 +145,7 @@ public interface ChainSupport<T, Self extends ChainSupport<T, Self>> {
   @NotNull
   default Self notIn(@NotNull String path, @NotNull Collection<?> value) {
     return and(Specification.not((root, query, criteriaBuilder) -> {
-      val p = criteriaBuilder.in(str2Path(root, path));
+      final var p = criteriaBuilder.in(str2Path(root, path));
       value.forEach(p::value);
       return p;
     }));
@@ -155,7 +154,7 @@ public interface ChainSupport<T, Self extends ChainSupport<T, Self>> {
   @NotNull
   default Self notIn(@NotNull String path, Object... value) {
     return and(Specification.not((root, query, criteriaBuilder) -> {
-      val p = criteriaBuilder.in(str2Path(root, path));
+      final var p = criteriaBuilder.in(str2Path(root, path));
       Arrays.stream(value).forEach(p::value);
       return p;
     }));
@@ -165,7 +164,7 @@ public interface ChainSupport<T, Self extends ChainSupport<T, Self>> {
   @Contract(pure = true)
   static <P> Path<P> str2Path(@NotNull Path<?> root, @NotNull String string) {
     @SuppressWarnings("unchecked")
-    val path = (Path<P>) root;
+    final var path = (Path<P>) root;
     return Arrays.stream(string.split("\\."))
         .reduce(path, Path::get, (a, b) -> a);
   }

@@ -9,6 +9,6 @@
 <dependency>
     <groupId>com.github.yjgbg</groupId>
     <artifactId>jpa-plus-spring-boot-starter</artifactId>
-    <version>2.4.1.1</version>
+    <version>2.6.4-SNAPSHOT</version>
 </dependency>
 ```

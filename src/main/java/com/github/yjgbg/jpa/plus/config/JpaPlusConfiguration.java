@@ -2,6 +2,7 @@ package com.github.yjgbg.jpa.plus.config;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeansException;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -17,7 +18,7 @@ import javax.transaction.Transactional;
 @SpringBootConfiguration
 @ConditionalOnClass(JpaPlusConfiguration.class)
 public class JpaPlusConfiguration implements ApplicationContextAware {
-    private static JpaPlusConfiguration SELF;
+    private static ApplicationContext APPLICATION_CONTEXT;
     public final EntityManager entityManager;
 
     @Modifying
@@ -33,11 +34,11 @@ public class JpaPlusConfiguration implements ApplicationContextAware {
     }
 
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        SELF = applicationContext.getBean(getClass());
+    public void setApplicationContext(@NotNull ApplicationContext applicationContext) throws BeansException {
+        APPLICATION_CONTEXT = applicationContext;
     }
 
     public static JpaPlusConfiguration self() {
-        return SELF;
+        return APPLICATION_CONTEXT.getBean(JpaPlusConfiguration.class);
     }
 }

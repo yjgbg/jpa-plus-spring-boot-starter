@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -44,6 +45,10 @@ public interface ExecuteSupport<T> extends Specification<T> {
     default Page<T> findAll(int page, int size) {
         return getJpaSpecificationRepository().findAll(this,
                 getEntityGraph(), PageRequest.of(page, size, getSort()));
+    }
+    // 这个方法会使得前面的sort()无效，排序规则由此处的pageable参数决定
+    default Page<T> findAll(Pageable pageable) {
+        return getJpaSpecificationRepository().findAll(this,getEntityGraph(),pageable);
     }
 
     default long count() {

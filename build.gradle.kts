@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.github.yjgbg"
-version = "hypers-2.6.2-SNAPSHOT"
+version = "hypers-2.6.4-SNAPSHOT"
 description = "jpa-plus-spring-boot-starter"
 java.sourceCompatibility = JavaVersion.VERSION_11
 

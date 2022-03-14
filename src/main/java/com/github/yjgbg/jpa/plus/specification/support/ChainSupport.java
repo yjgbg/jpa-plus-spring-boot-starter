@@ -29,7 +29,9 @@ public interface ChainSupport<T, Self extends ChainSupport<T, Self>> {
    * @param path
    * @param value
    * @return
+   * @deprecated 用{@link #in(String,Object...)}代理
    */
+  @Deprecated
   default Self eq(String path, Object value) {
     if (value == null) {
       return and((root, query, criteriaBuilder) ->
@@ -49,6 +51,7 @@ public interface ChainSupport<T, Self extends ChainSupport<T, Self>> {
    * @param value
    * @return
    */
+  @Deprecated
   default Self eq(boolean condition, String path, Object value) {
     return cond(condition, x -> x.eq(path, value));
   }

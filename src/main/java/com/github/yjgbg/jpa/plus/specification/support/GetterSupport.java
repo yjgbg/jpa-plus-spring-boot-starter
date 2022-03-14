@@ -8,10 +8,12 @@ import java.util.Collection;
 public interface GetterSupport<T, Self extends GetterSupport<T, Self>>
         extends ChainSupport<T, Self> {
 
+    @Deprecated
     default <P> Self eq(Getter<T, P> path, P value) {
         return eq(path.propertyName(), value);
     }
 
+    @Deprecated
     default <P> Self eq(boolean condition, Getter<T, P> path, P value) {
         return eq(condition, path.propertyName(), value);
     }

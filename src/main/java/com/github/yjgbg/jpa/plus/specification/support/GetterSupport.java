@@ -18,10 +18,11 @@ public interface GetterSupport<T, Self extends GetterSupport<T, Self>>
         return eq(condition, path.propertyName(), value);
     }
 
+    @Deprecated
     default <P> @NotNull Self ne(@NotNull Getter<T, P> path, @Nullable P value) {
         return ne(path.propertyName(),value);
     }
-
+    @Deprecated
     default <P> @NotNull Self ne(boolean condition, @NotNull Getter<T, P> path, @Nullable P value) {
         return ne(condition,path.propertyName(),value);
     }

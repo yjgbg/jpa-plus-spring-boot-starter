@@ -69,6 +69,7 @@ public interface ChainSupport<T, Self extends ChainSupport<T, Self>> {
     return condition?functor.apply((Self) this):(Self) this;
   }
 
+  @Deprecated
   @NotNull
   default Self ne(@NotNull String path, @Nullable Object value) {
     if (value == null) {
@@ -79,6 +80,7 @@ public interface ChainSupport<T, Self extends ChainSupport<T, Self>> {
             criteriaBuilder.notEqual(str2Path(root, path), value));
   }
 
+  @Deprecated
   @NotNull
   default Self ne(boolean condition,@NotNull String path, @Nullable Object value) {
     return cond(condition,x -> x.ne(path, value));
@@ -128,6 +130,7 @@ public interface ChainSupport<T, Self extends ChainSupport<T, Self>> {
 
   @NotNull
   default Self in(@NotNull String path, @NotNull Collection<?> value) {
+    if (value.size() == 0) return and((root, query, cb) -> cb.or()); // 永假 cb.or
     if (value.size() == 1) return eq(path, value.iterator().next());
     return and((root, query, criteriaBuilder) -> {
       final var p = criteriaBuilder.in(str2Path(root, path));
@@ -138,6 +141,7 @@ public interface ChainSupport<T, Self extends ChainSupport<T, Self>> {
 
   @NotNull
   default Self in(@NotNull String path, Object... value) {
+    if (value.length == 0) return and((root, query, cb) -> cb.or());// 永假 cb.or
     if (value.length == 1) return eq(path, value[0]);
     return and((root, query, criteriaBuilder) -> {
       final var p = criteriaBuilder.in(str2Path(root, path));
@@ -148,6 +152,8 @@ public interface ChainSupport<T, Self extends ChainSupport<T, Self>> {
 
   @NotNull
   default Self notIn(@NotNull String path, @NotNull Collection<?> value) {
+    if (value.size() == 0) return and((root, query, criteriaBuilder) -> criteriaBuilder.and());// 永真 cb.and
+    if (value.size() == 1) return ne(path,value.iterator().next());
     return and(Specification.not((root, query, criteriaBuilder) -> {
       final var p = criteriaBuilder.in(str2Path(root, path));
       value.forEach(p::value);
@@ -157,6 +163,8 @@ public interface ChainSupport<T, Self extends ChainSupport<T, Self>> {
 
   @NotNull
   default Self notIn(@NotNull String path, Object... value) {
+    if (value.length == 0) return and((root, query, criteriaBuilder) -> criteriaBuilder.and());// 永真 cb.and
+    if (value.length == 1) return ne(path,value[0]);
     return and(Specification.not((root, query, criteriaBuilder) -> {
       final var p = criteriaBuilder.in(str2Path(root, path));
       Arrays.stream(value).forEach(p::value);

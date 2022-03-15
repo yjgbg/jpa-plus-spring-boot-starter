@@ -46,12 +46,12 @@ public interface GetterSupport<T, Self extends GetterSupport<T, Self>>
         return between(path.propertyName(),lowerBound,upperBound);
     }
 
-    default <P> @NotNull Self like(@NotNull Getter<T, String> path, String value) {
+    default @NotNull Self like(@NotNull Getter<T, String> path, String value) {
         return like(path.propertyName(),value);
     }
 
-    default <P> @NotNull Self like(boolean condition, @NotNull Getter<T, String> path, String value) {
-        return like(condition,path.propertyName(),value);
+    default @NotNull Self like(@NotNull Getter<T, String> path, String value, char escape) {
+        return like(path.propertyName(),value,escape);
     }
 
     default <P> @NotNull Self in(@NotNull Getter<T, P> path, @NotNull Collection<P> value) {

@@ -1,5 +1,6 @@
 package com.github.yjgbg.jpa.plus.specification.support;
 
+import com.github.yjgbg.jpa.plus.config.Constants;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -117,12 +118,12 @@ public interface ChainSupport<T, Self extends ChainSupport<T, Self>> {
   @NotNull
   default Self like(@NotNull String path, String value) {
     return and((root, query, criteriaBuilder) ->
-        criteriaBuilder.like(str2Path(root, path), value));
+        criteriaBuilder.like(str2Path(root, path), value, Constants.DEFAULT_ESCAPE_CHAR));
   }
 
   @NotNull
-  default Self like(boolean condition, @NotNull String path, String value) {
-    return cond(condition, spec -> spec.like(path, value));
+  default Self like(@NotNull String path,String value,char escape) {
+    return and((root, query, cb) -> cb.like(str2Path(root,path),value,escape));
   }
 
   @NotNull
@@ -169,6 +170,6 @@ public interface ChainSupport<T, Self extends ChainSupport<T, Self>> {
     @SuppressWarnings("unchecked")
     final var path = (Path<P>) root;
     return Arrays.stream(string.split("\\."))
-        .reduce(path, Path::get, (a, b) -> a);
+        .reduce(path, Path::get, (a, b) -> null);
   }
 }

@@ -1,5 +1,6 @@
 package com.github.yjgbg.jpa.plus.specification.support;
 
+import lombok.var;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 

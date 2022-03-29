@@ -1,6 +1,7 @@
 package com.github.yjgbg.jpa.plus.specification.support;
 
 import lombok.SneakyThrows;
+import lombok.var;
 
 import java.beans.Introspector;
 import java.io.Serializable;
@@ -25,7 +26,7 @@ import java.util.stream.Stream;
 @FunctionalInterface
 public interface Getter<A, B> extends Function<A, B>, Serializable {
     @SneakyThrows
-    private String propertyName0() {
+    default String propertyName0() {
         final var method = this.getClass().getDeclaredMethod("writeReplace");
         method.setAccessible(Boolean.TRUE);
         final var serializedLambda = (SerializedLambda) method.invoke(this);
@@ -46,7 +47,7 @@ public interface Getter<A, B> extends Function<A, B>, Serializable {
         return res;
     }
 
-    private static String getters2Name(Getter<?, ?>... getters) {
+    static String getters2Name(Getter<?, ?>... getters) {
         return Stream.of(getters).map(Getter::propertyName)
                 .collect(Collectors.joining(PackageCascade.DELIMITER));
     }
@@ -101,7 +102,7 @@ public interface Getter<A, B> extends Function<A, B>, Serializable {
      * @return 返回新的getter
      */
     static <A, B> Getter<A, B> c(Getter<A, Collection<B>> getter) {
-        return new Getter<>() {
+        return new Getter<A,B>() {
             @Override
             public B apply(A t) {
                 return null;

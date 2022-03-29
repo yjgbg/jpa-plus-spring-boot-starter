@@ -17,7 +17,7 @@ import java.util.Optional;
 /**
  * 在Repository中对EntityGraph进行支持
  *
- * @param <T>
+ * @param <T> 实体类型
  * @author yjgbg
  */
 @NoRepositoryBean

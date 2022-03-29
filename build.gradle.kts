@@ -4,9 +4,9 @@ plugins {
 }
 
 group = "com.github.yjgbg"
-version = "2.6.4-SNAPSHOT"
+version = "2.1.3.007-SNAPSHOT"
 description = "jpa-plus-spring-boot-starter"
-java.sourceCompatibility = JavaVersion.VERSION_11
+java.sourceCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
     mavenCentral()
@@ -14,7 +14,7 @@ repositories {
 
 
 dependencies {
-    api("org.springframework.boot:spring-boot-starter-data-jpa:2.6.4")
+    api("org.springframework.boot:spring-boot-starter-data-jpa:2.1.3.RELEASE")
     compileOnly("org.jetbrains:annotations:+")
     compileOnly("org.projectlombok:lombok:+")
     annotationProcessor("org.projectlombok:lombok:+")

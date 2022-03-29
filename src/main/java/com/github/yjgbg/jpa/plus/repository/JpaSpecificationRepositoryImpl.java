@@ -2,6 +2,7 @@ package com.github.yjgbg.jpa.plus.repository;
 
 import lombok.Getter;
 import lombok.val;
+import lombok.var;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.data.domain.Page;

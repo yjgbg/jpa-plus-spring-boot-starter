@@ -1,6 +1,7 @@
 package com.github.yjgbg.jpa.plus.specification.support;
 
 import com.github.yjgbg.jpa.plus.config.Constants;
+import lombok.var;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

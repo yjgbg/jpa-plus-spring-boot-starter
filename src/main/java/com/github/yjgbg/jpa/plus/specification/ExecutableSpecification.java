@@ -4,6 +4,7 @@ import com.github.yjgbg.jpa.plus.repository.JpaSpecificationRepository;
 import com.github.yjgbg.jpa.plus.specification.support.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.var;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.data.domain.Sort;

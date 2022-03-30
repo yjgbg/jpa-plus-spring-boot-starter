@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.github.yjgbg"
-version = "2.1.3.007-SNAPSHOT"
+version = "2.1.3.008-SNAPSHOT"
 description = "jpa-plus-spring-boot-starter"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 

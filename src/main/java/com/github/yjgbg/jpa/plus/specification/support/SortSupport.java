@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @param <Self>
  */
-public interface SortSupport<Self> {
+public interface SortSupport<Self,A> {
   Self sort(Sort sort);
 
   default Self sort(Sort.Order... orders) {
@@ -34,18 +34,53 @@ public interface SortSupport<Self> {
     return sort(Sort.by(Direction.DESC, properties));
   }
 
-  default Self sort(Direction direction, Getter<?, ?>... properties) {
+  default Self sort(Direction direction, Getter<A, ?>... properties) {
     final var propsStrings = Arrays.stream(properties).map(Getter::propertyName).toArray(String[]::new);
     return sort(Sort.by(direction, propsStrings));
   }
 
-  default Self sortAsc(Getter<?, ?>... properties) {
-    final var propsStrings = Arrays.stream(properties).map(Getter::propertyName).toArray(String[]::new);
-    return sort(Sort.by(Direction.ASC, propsStrings));
+  default Self sortAsc(Getter<A, ?> property0) {
+    return sort(Direction.ASC,property0);
   }
 
-  default Self sortDesc(Getter<?, ?>... properties) {
-    final var propsStrings = Arrays.stream(properties).map(Getter::propertyName).toArray(String[]::new);
-    return sort(Sort.by(Direction.DESC, propsStrings));
+  default Self sortAsc(Getter<A, ?> property0,Getter<A, ?> property1) {
+    return sort(Direction.ASC,property0,property1);
+  }
+
+  default Self sortAsc(Getter<A, ?> property0,Getter<A, ?> property1,Getter<A, ?> property2) {
+    return sort(Direction.ASC,property0,property1,property2);
+  }
+
+  default Self sortAsc(Getter<A, ?> property0,Getter<A, ?> property1,Getter<A, ?> property2,Getter<A, ?> property3) {
+    return sort(Direction.ASC,property0,property1,property2,property3);
+  }
+
+  default Self sortAsc(Getter<A, ?> property0,Getter<A, ?> property1,Getter<A, ?> property2,Getter<A, ?> property3,Getter<A, ?> property4) {
+    return sort(Direction.ASC,property0,property1,property2,property3,property4);
+  }
+  default Self sortAsc(Getter<A, ?>... properties) {
+    return sort(Direction.ASC, properties);
+  }
+  default Self sortDesc(Getter<A, ?> property0) {
+    return sort(Direction.DESC,property0);
+  }
+
+  default Self sortDesc(Getter<A, ?> property0,Getter<A, ?> property1) {
+    return sort(Direction.DESC,property0,property1);
+  }
+
+  default Self sortDesc(Getter<A, ?> property0,Getter<A, ?> property1,Getter<A, ?> property2) {
+    return sort(Direction.DESC,property0,property1,property2);
+  }
+
+  default Self sortDesc(Getter<A, ?> property0,Getter<A, ?> property1,Getter<A, ?> property2,Getter<A, ?> property3) {
+    return sort(Direction.DESC,property0,property1,property2,property3);
+  }
+
+  default Self sortDesc(Getter<A, ?> property0,Getter<A, ?> property1,Getter<A, ?> property2,Getter<A, ?> property3,Getter<A, ?> property4) {
+    return sort(Direction.DESC,property0,property1,property2,property3,property4);
+  }
+  default Self sortDesc(Getter<A, ?>... properties) {
+    return sort(Direction.DESC, properties);
   }
 }

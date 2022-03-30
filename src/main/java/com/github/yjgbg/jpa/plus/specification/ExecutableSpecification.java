@@ -23,7 +23,7 @@ public class ExecutableSpecification<T> implements
         EntityGraphSupport<ExecutableSpecification<T>, T>,
         GetterSupport<T, ExecutableSpecification<T>>,
         ChainSupport<T, ExecutableSpecification<T>>,
-        SortSupport<ExecutableSpecification<T>>,
+        SortSupport<ExecutableSpecification<T>,T>,
         ExecuteSupport<T> {
 
     @Getter

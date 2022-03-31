@@ -65,7 +65,4 @@ public @interface EnableJpaPlusRepositories {
 
     @AliasFor(annotation = EnableJpaRepositories.class)
     BootstrapMode bootstrapMode() default BootstrapMode.DEFAULT;
-
-    @AliasFor(annotation = EnableJpaRepositories.class)
-    char escapeCharacter() default '\\';
 }

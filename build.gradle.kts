@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.github.yjgbg"
-version = "2.1.3.007-SNAPSHOT"
+version = "2.1.3.007"
 description = "jpa-plus-spring-boot-starter"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
@@ -28,14 +28,14 @@ publishing {
     publications.create<MavenPublication>("snapshot") {
         from(components["java"])
         pom {
-            version = "${project.ext["publicationVersion"].toString()}-SNAPSHOT"
+            version = "${project.version}-SNAPSHOT"
         }
     }
     publications.create<MavenPublication>("hypers") {
         from(components["java"])
         pom {
             groupId = "com.hypers.weicl"
-            version = project.ext["publicationVersion"].toString()
+            version = project.version.toString()
         }
     }
     repositories.maven("https://oss.sonatype.org/content/repositories/snapshots") {

@@ -24,39 +24,6 @@ public interface ChainSupport<T, Self extends ChainSupport<T, Self>> {
   @NotNull
   Self and(@Nullable Specification<T> specification);
 
-  /**
-   * 查询条件：prop所代表的属性是否等于value
-   *
-   * @param path
-   * @param value
-   * @return
-   * @deprecated 用{@link #in(String,Object...)}代理
-   */
-  @Deprecated
-  default Self eq(String path, Object value) {
-    if (value == null) {
-      return and((root, query, criteriaBuilder) ->
-              criteriaBuilder.isNull(str2Path(root, path)));
-    }
-    return and((root, query, criteriaBuilder) ->
-            criteriaBuilder.equal(str2Path(root, path), value));
-  }
-
-  /**
-   * 根据condition的真值决定是否需要此条查询条件
-   * 作用相当于：
-   * if(condition) spec = spec.eq(path,value);
-   *
-   * @param condition
-   * @param path
-   * @param value
-   * @return
-   */
-  @Deprecated
-  default Self eq(boolean condition, String path, Object value) {
-    return cond(condition, x -> x.eq(path, value));
-  }
-
   @NotNull
   default Self example(@NotNull T probe) {
     return and((root, query, criteriaBuilder) ->
@@ -67,23 +34,6 @@ public interface ChainSupport<T, Self extends ChainSupport<T, Self>> {
   @SuppressWarnings("unchecked")
   default Self cond(boolean condition, @NotNull Function<Self, @NotNull Self> functor) {
     return condition?functor.apply((Self) this):(Self) this;
-  }
-
-  @Deprecated
-  @NotNull
-  default Self ne(@NotNull String path, @Nullable Object value) {
-    if (value == null) {
-      return and((root, query, criteriaBuilder) ->
-              criteriaBuilder.isNotNull(str2Path(root, path)));
-    }
-    return and((root, query, criteriaBuilder) ->
-            criteriaBuilder.notEqual(str2Path(root, path), value));
-  }
-
-  @Deprecated
-  @NotNull
-  default Self ne(boolean condition,@NotNull String path, @Nullable Object value) {
-    return cond(condition,x -> x.ne(path, value));
   }
 
   @NotNull
@@ -130,46 +80,34 @@ public interface ChainSupport<T, Self extends ChainSupport<T, Self>> {
 
   @NotNull
   default Self in(@NotNull String path, @NotNull Collection<?> value) {
-    if (value.size() == 0) return and((root, query, cb) -> cb.or()); // 永假 cb.or
-    if (value.size() == 1) return eq(path, value.iterator().next());
-    return and((root, query, criteriaBuilder) -> {
-      final var p = criteriaBuilder.in(str2Path(root, path));
-      value.forEach(p::value);
-      return p;
-    });
+    return and((root, query, cb) -> value.size() == 0 ? cb.or()// 永假 cb.or
+        : value.size() == 1 && value.iterator().next()==null ? cb.isNull(str2Path(root,path))
+        : value.size() == 1 ? cb.equal(str2Path(root,path),value.iterator().next())
+        : cb.in(str2Path(root,path)).in(value));
   }
 
   @NotNull
   default Self in(@NotNull String path, Object... value) {
-    if (value.length == 0) return and((root, query, cb) -> cb.or());// 永假 cb.or
-    if (value.length == 1) return eq(path, value[0]);
-    return and((root, query, criteriaBuilder) -> {
-      final var p = criteriaBuilder.in(str2Path(root, path));
-      Arrays.stream(value).forEach(p::value);
-      return p;
-    });
+    return and((root, query, cb) -> value.length == 0 ? cb.or()// 永假 cb.or
+        : value.length == 1 && value[0]==null ? cb.isNull(str2Path(root,path))
+        : value.length == 1 ? cb.equal(str2Path(root,path),value[0])
+        : cb.in(str2Path(root,path)).in(value));
   }
 
   @NotNull
   default Self notIn(@NotNull String path, @NotNull Collection<?> value) {
-    if (value.size() == 0) return and((root, query, criteriaBuilder) -> criteriaBuilder.and());// 永真 cb.and
-    if (value.size() == 1) return ne(path,value.iterator().next());
-    return and(Specification.not((root, query, criteriaBuilder) -> {
-      final var p = criteriaBuilder.in(str2Path(root, path));
-      value.forEach(p::value);
-      return p;
-    }));
+    return and((root, query, cb) -> value.size() == 0 ? cb.and()// 永假 cb.or
+        : value.size() == 1 && value.iterator().next()==null ? cb.isNotNull(str2Path(root,path))
+        : value.size() == 1 ? cb.notEqual(str2Path(root,path),value.iterator().next())
+        : cb.in(str2Path(root,path)).in(value).not());
   }
 
   @NotNull
   default Self notIn(@NotNull String path, Object... value) {
-    if (value.length == 0) return and((root, query, criteriaBuilder) -> criteriaBuilder.and());// 永真 cb.and
-    if (value.length == 1) return ne(path,value[0]);
-    return and(Specification.not((root, query, criteriaBuilder) -> {
-      final var p = criteriaBuilder.in(str2Path(root, path));
-      Arrays.stream(value).forEach(p::value);
-      return p;
-    }));
+    return and((root, query, cb) -> value.length == 0 ? cb.and()// 永假 cb.or
+        : value.length == 1 && value[0]==null ? cb.isNotNull(str2Path(root,path))
+        : value.length == 1 ? cb.notEqual(str2Path(root,path),value[0])
+        : cb.in(str2Path(root,path)).in(value).not());
   }
 
   @NotNull

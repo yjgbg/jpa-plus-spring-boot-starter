@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.github.yjgbg"
-version = "2.6.4"
+version = "2.7.0.MAY"
 description = "jpa-plus-spring-boot-starter"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
@@ -14,10 +14,10 @@ repositories {
 
 
 dependencies {
-    api("org.springframework.boot:spring-boot-starter-data-jpa:2.6.4")
-    compileOnly("org.jetbrains:annotations:+")
-    compileOnly("org.projectlombok:lombok:+")
-    annotationProcessor("org.projectlombok:lombok:+")
+    api("org.springframework.boot:spring-boot-starter-data-jpa:2.7.0")
+    compileOnly("org.jetbrains:annotations:23.0.0")
+    compileOnly("org.projectlombok:lombok:1.18.24")
+    annotationProcessor("org.projectlombok:lombok:1.18.24")
 }
 
 java {
@@ -46,7 +46,7 @@ publishing {
             password = project.ext["mavenPassword"].toString()
         }
     }
-    repositories.maven("https://nexus3.hypers.cc/repository/maven-releases/") {
+    repositories.maven("https://nexus3.hypers.cc/repository/orca/") {
         name = "hypers"
         credentials {
             username = project.ext["hypersMavenUsername"].toString()

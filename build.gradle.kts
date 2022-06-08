@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.github.yjgbg"
-version = "2.7.0.MAY"
+version = "2.7.0"
 description = "jpa-plus-spring-boot-starter"
 java.sourceCompatibility = JavaVersion.VERSION_11
 

@@ -28,7 +28,7 @@ public interface StaticMethodReferenceGetter<A, B> extends Function<A, B>, Seria
         method.setAccessible(Boolean.TRUE);
         val serializedLambda = (SerializedLambda) method.invoke(this);
         val getter = serializedLambda.getImplMethodName();
-        return Introspector.decapitalize(getter.replace("get", ""));
+        return getter.startsWith("get") ? Introspector.decapitalize(getter.substring(3)) : getter;
     }
 
     /**

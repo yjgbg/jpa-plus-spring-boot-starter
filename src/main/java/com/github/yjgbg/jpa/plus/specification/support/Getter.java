@@ -30,7 +30,7 @@ public interface Getter<A, B> extends Function<A, B>, Serializable {
         method.setAccessible(Boolean.TRUE);
         final var serializedLambda = (SerializedLambda) method.invoke(this);
         final var getter = serializedLambda.getImplMethodName();
-        return Introspector.decapitalize(getter.replace("get", ""));
+        return getter.startsWith("get") ? Introspector.decapitalize(getter.substring(3)):getter;
     }
 
     /**

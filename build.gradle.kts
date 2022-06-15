@@ -47,7 +47,14 @@ publishing {
         }
     }
     repositories.maven("https://nexus3.hypers.cc/repository/orca/") {
-        name = "hypers"
+        name = "hypersOrca"
+        credentials {
+            username = project.ext["hypersMavenUsername"].toString()
+            password = project.ext["hypersMavenPassword"].toString()
+        }
+    }
+    repositories.maven("https://nexus3.hypers.cc/repository/maven-releases/") {
+        name = "hypersRelease"
         credentials {
             username = project.ext["hypersMavenUsername"].toString()
             password = project.ext["hypersMavenPassword"].toString()

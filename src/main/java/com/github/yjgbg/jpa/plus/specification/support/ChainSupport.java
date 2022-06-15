@@ -11,6 +11,7 @@ import org.springframework.data.jpa.domain.Specification;
 import javax.persistence.criteria.Path;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
@@ -83,7 +84,7 @@ public interface ChainSupport<T, Self extends ChainSupport<T, Self>> {
     return and((root, query, cb) -> value.size() == 0 ? cb.or()// 永假 cb.or
         : value.size() == 1 && value.iterator().next()==null ? cb.isNull(str2Path(root,path))
         : value.size() == 1 ? cb.equal(str2Path(root,path),value.iterator().next())
-        : cb.in(str2Path(root,path)).in(value));
+        : also(cb.in(str2Path(root,path)),in -> value.forEach(in::value)));
   }
 
   @NotNull
@@ -91,7 +92,7 @@ public interface ChainSupport<T, Self extends ChainSupport<T, Self>> {
     return and((root, query, cb) -> value.length == 0 ? cb.or()// 永假 cb.or
         : value.length == 1 && value[0]==null ? cb.isNull(str2Path(root,path))
         : value.length == 1 ? cb.equal(str2Path(root,path),value[0])
-        : cb.in(str2Path(root,path)).in(value));
+        : also(cb.in(str2Path(root,path)),in -> Arrays.stream(value).forEach(in::value)));
   }
 
   @NotNull
@@ -117,5 +118,9 @@ public interface ChainSupport<T, Self extends ChainSupport<T, Self>> {
     final var path = (Path<P>) root;
     return Arrays.stream(string.split("\\."))
         .reduce(path, Path::get, (a, b) -> null);
+  }
+  private static <A> A also(A a, Consumer<A> consumer) {
+    consumer.accept(a);
+    return a;
   }
 }
